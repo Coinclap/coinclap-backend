@@ -1,13 +1,46 @@
+import { Types } from "mongoose"
+import { Gender, AccountType, OnboardingStep, UserRole } from "../enums"
+
 export interface IUser {
-  // id?: string
+  id: string
+  fullName: string
+  phoneNumber: string
+  countryCode: string
   email: string
-  username: string
-  firstName: string
-  lastName: string
-  role: string
+  dob: Date
+  gender: Gender
+  bio?: string
+  country?: string
+  city?: string
+  state?: string
+  pincode?: string
+  accountType?: AccountType
+  website?: string
+  username?: string
+  areaOfInterests?: string[]
+  profileImageUrl?: string
+  role: UserRole
   isActive: boolean
+  step: OnboardingStep
+  isEmailVerified: boolean
+  isPhoneVerified: boolean
   createdAt: Date
   updatedAt: Date
+}
+
+export interface IPassword {
+  id: string
+  userId: Types.ObjectId
+  password: string
+  version: string
+  isDeleted: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface IOtp {
+  code: string
+  expiresAt: Date
 }
 
 export interface IApiResponse<T = any> {
@@ -23,7 +56,7 @@ export interface IPaginationOptions {
   page: number
   limit: number
   sortBy?: string
-  sortOrder?: string
+  sortOrder?: "asc" | "desc" | string
 }
 
 export interface IPaginatedResponse<T> {

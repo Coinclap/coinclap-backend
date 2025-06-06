@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv"
+import dotenv from "dotenv"
 import { App } from "./app"
 import { Logger } from "./utils/logger"
 

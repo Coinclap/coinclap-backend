@@ -5,6 +5,24 @@ export enum UserRole {
   GUEST = "guest",
 }
 
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
+}
+
+export enum AccountType {
+  PERSONAL = "PERSONAL",
+  BUSINESS = "BUSINESS",
+}
+
+export enum OnboardingStep {
+  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
+  MOBILE_VERIFICATION = "MOBILE_VERIFICATION",
+  USER_DETAILS = "USER_DETAILS",
+  COMPLETED = "COMPLETED",
+}
+
 export enum HttpStatusCode {
   OK = 200,
   CREATED = 201,
@@ -45,4 +63,6 @@ export enum CacheKeys {
   USER_PREFIX = "user:",
   SESSION_PREFIX = "session:",
   RATE_LIMIT_PREFIX = "rate_limit:",
+  OTP_PREFIX = "otp:",
+  USERNAME_PREFIX = "username:",
 }

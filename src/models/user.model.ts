@@ -1,16 +1,30 @@
 import mongoose, { Schema, type Document } from "mongoose"
-import bcrypt from "bcryptjs"
 import type { IUser } from "../types"
-import { UserRole } from "../enums"
+import { UserRole, Gender, AccountType, OnboardingStep } from "../enums"
 
-export interface IUserDocument extends IUser, Document {
-  password: string
-  comparePassword(candidatePassword: string): Promise<boolean>
+export interface IUserDocument extends Omit<IUser, "id">, Document {
   toJSON(): Partial<IUserDocument>
 }
 
 const userSchema = new Schema<IUserDocument>(
   {
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 100,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
+    countryCode: {
+      type: String,
+      default: "+91",
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -19,32 +33,65 @@ const userSchema = new Schema<IUserDocument>(
       trim: true,
       index: true,
     },
+    dob: {
+      type: Date,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: Object.values(Gender),
+      required: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+      maxlength: 160,
+    },
+    country: {
+      type: String,
+      trim: true,
+    },
+    city: {
+      type: String,
+      trim: true,
+    },
+    state: {
+      type: String,
+      trim: true,
+    },
+    pincode: {
+      type: String,
+      trim: true,
+    },
+    accountType: {
+      type: String,
+      enum: Object.values(AccountType),
+      default: AccountType.PERSONAL,
+    },
+    website: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function(v: string) {
+          return !v || /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v)
+        },
+        message: "Please enter a valid website URL"
+      }
+    },
     username: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
-      minlength: 3,
-      maxlength: 30,
+      unique: true,
+      sparse: true,
       index: true,
     },
-    password: {
+    areaOfInterests: [{
       type: String,
-      required: true,
-      minlength: 6,
-      select: false,
-    },
-    firstName: {
-      type: String,
-      required: true,
       trim: true,
-      maxlength: 50,
-    },
-    lastName: {
+    }],
+    profileImageUrl: {
       type: String,
-      required: true,
       trim: true,
-      maxlength: 50,
     },
     role: {
       type: String,
@@ -55,6 +102,19 @@ const userSchema = new Schema<IUserDocument>(
       type: Boolean,
       default: true,
     },
+    step: {
+      type: String,
+      enum: Object.values(OnboardingStep),
+      default: OnboardingStep.EMAIL_VERIFICATION,
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isPhoneVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -64,31 +124,13 @@ const userSchema = new Schema<IUserDocument>(
 
 // Indexes for performance
 userSchema.index({ email: 1, isActive: 1 })
+userSchema.index({ phoneNumber: 1, isActive: 1 })
 userSchema.index({ username: 1, isActive: 1 })
 userSchema.index({ role: 1, isActive: 1 })
-
-// Pre-save middleware to hash password
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next()
-
-  try {
-    const salt = await bcrypt.genSalt(12)
-    this.password = await bcrypt.hash(this.password, salt)
-    next()
-  } catch (error) {
-    next(error as Error)
-  }
-})
-
-// Instance method to compare password
-userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password)
-}
 
 // Transform output to exclude sensitive data
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject()
-  delete userObject.password
   return userObject
 }
 

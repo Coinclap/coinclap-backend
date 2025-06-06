@@ -1,13 +1,14 @@
 import type { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import { AppConfig } from "../config/app"
-import { HttpStatusCode, type UserRole } from "../enums"
+import { HttpStatusCode, type UserRole, type OnboardingStep } from "../enums"
 import { Logger } from "../utils/logger"
 
 interface JwtPayload {
   userId: string
   email: string
-  role: UserRole
+  role?: UserRole
+  step?: OnboardingStep
 }
 
 declare global {
@@ -81,7 +82,7 @@ export class AuthMiddleware {
         return
       }
 
-      if (!roles.includes(req.user.role)) {
+      if (req.user.role && !roles.includes(req.user.role)) {
         res.status(HttpStatusCode.FORBIDDEN).json({
           success: false,
           message: "Insufficient permissions",
@@ -109,6 +110,7 @@ export class AuthMiddleware {
 
       next()
     } catch (error) {
+      // For optional auth, we don't return an error, just continue without user
       next()
     }
   }

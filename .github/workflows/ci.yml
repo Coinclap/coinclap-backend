@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -45,7 +45,7 @@ jobs:
       env:
         NODE_ENV: test
         MONGODB_URI: mongodb://localhost:27017/express-app-test
-    
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -57,10 +57,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Build Docker image
       run: docker build -t express-backend .
-    
+
     - name: Test Docker image
       run: |
         docker run -d --name test-container -p 8000:8000 express-backend
@@ -72,11 +72,8 @@ jobs:
     needs: [test, build]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Deploy to production
+    - name: Trigger Render Deploy
       run: |
-        echo "Deploy to production server"
-        # Add your deployment script here
+        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

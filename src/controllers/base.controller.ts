@@ -58,6 +58,14 @@ export abstract class BaseController {
     this.sendError(res, "Internal server error", HttpStatusCode.INTERNAL_SERVER_ERROR)
   }
 
+protected createSuccessResponse(data: any, statusCode: number = 200): IServiceResponse<any> {
+    return {
+      success: true,
+      data,
+      statusCode,
+    }
+  }
+
   protected extractPaginationOptions(req: Request) {
     const page = Number.parseInt(req.query.page as string) || 1
     const limit = Math.min(Number.parseInt(req.query.limit as string) || 10, 100)

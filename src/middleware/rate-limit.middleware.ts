@@ -18,7 +18,7 @@ export class RateLimitMiddleware {
       standardHeaders: true,
       legacyHeaders: false,
       handler: (req: Request, res: Response) => {
-        res.status(HttpStatusCode.TOO_MANY_REQUESTS).json({
+        res.status(HttpStatusCode.TOO_MANY_REQUESTS || 429).json({
           success: false,
           message: "Rate limit exceeded",
           timestamp: new Date(),
@@ -27,10 +27,12 @@ export class RateLimitMiddleware {
     })
   }
 
-  public static strict = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 50) 
-  public static moderate = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 100) 
-  public static lenient = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 200) 
+  public static strict = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 50) // 50 requests per 15 minutes
+  public static moderate = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 100) // 100 requests per 15 minutes
+  public static lenient = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 200) // 200 requests per 15 minutes
 
-  public static auth = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 5) 
-  public static registration = RateLimitMiddleware.createLimiter(60 * 60 * 1000, 3) 
+  // Special limiters for specific endpoints
+  public static auth = RateLimitMiddleware.createLimiter(15 * 60 * 1000, 5) // 5 login attempts per 15 minutes
+  public static registration = RateLimitMiddleware.createLimiter(60 * 60 * 1000, 3) // 3 registrations per hour
+  public static forgotPassword = RateLimitMiddleware.createLimiter(60 * 60 * 1000, 3) // 3 forgot password attempts per hour
 }
