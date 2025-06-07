@@ -555,62 +555,62 @@ export class UserRoutes {
       ErrorMiddleware.asyncHandler(this.userController.updateUserDetails),
     )
 
-    /**
-     * @swagger
-     * /users/upload-url:
-     *   get:
-     *     summary: Get presigned URL for image upload
-     *     tags: [Users]
-     *     security:
-     *       - bearerAuth: []
-     *     parameters:
-     *       - in: query
-     *         name: fileType
-     *         required: true
-     *         schema:
-     *           type: string
-     *           pattern: '^image\/(jpeg|png|jpg|gif)$'
-     *         example: "image/jpeg"
-     *     responses:
-     *       200:
-     *         description: Upload URL generated successfully
-     *         content:
-     *           application/json:
-     *             schema:
-     *               allOf:
-     *                 - $ref: '#/components/schemas/ApiResponse'
-     *                 - type: object
-     *                   properties:
-     *                     data:
-     *                       type: object
-     *                       properties:
-     *                         uploadUrl:
-     *                           type: string
-     *                           format: uri
-     *                         key:
-     *                           type: string
-     *                         profileImageUrl:
-     *                           type: string
-     *                           format: uri
-     *       400:
-     *         description: Invalid file type
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Error'
-     *       401:
-     *         description: Unauthorized
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Error'
-     */
-    this.router.get(
-      "/upload-url",
-      RateLimitMiddleware.moderate,
-      AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.userController.getUploadUrl),
-    )
+    // /**
+    //  * @swagger
+    //  * /users/upload-url:
+    //  *   get:
+    //  *     summary: Get presigned URL for image upload
+    //  *     tags: [Users]
+    //  *     security:
+    //  *       - bearerAuth: []
+    //  *     parameters:
+    //  *       - in: query
+    //  *         name: fileType
+    //  *         required: true
+    //  *         schema:
+    //  *           type: string
+    //  *           pattern: '^image\/(jpeg|png|jpg|gif)$'
+    //  *         example: "image/jpeg"
+    //  *     responses:
+    //  *       200:
+    //  *         description: Upload URL generated successfully
+    //  *         content:
+    //  *           application/json:
+    //  *             schema:
+    //  *               allOf:
+    //  *                 - $ref: '#/components/schemas/ApiResponse'
+    //  *                 - type: object
+    //  *                   properties:
+    //  *                     data:
+    //  *                       type: object
+    //  *                       properties:
+    //  *                         uploadUrl:
+    //  *                           type: string
+    //  *                           format: uri
+    //  *                         key:
+    //  *                           type: string
+    //  *                         profileImageUrl:
+    //  *                           type: string
+    //  *                           format: uri
+    //  *       400:
+    //  *         description: Invalid file type
+    //  *         content:
+    //  *           application/json:
+    //  *             schema:
+    //  *               $ref: '#/components/schemas/Error'
+    //  *       401:
+    //  *         description: Unauthorized
+    //  *         content:
+    //  *           application/json:
+    //  *             schema:
+    //  *               $ref: '#/components/schemas/Error'
+    //  */
+    // this.router.get(
+    //   "/upload-url",
+    //   RateLimitMiddleware.moderate,
+    //   AuthMiddleware.authenticate,
+    //   ErrorMiddleware.asyncHandler(this.userController.getUploadUrl),
+    // )
 
     /**
      * @swagger
