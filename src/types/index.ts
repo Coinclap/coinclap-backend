@@ -1,5 +1,5 @@
-import { Types } from "mongoose"
-import { Gender, AccountType, OnboardingStep, UserRole } from "../enums"
+import { Document, Types } from "mongoose"
+import { Gender, AccountType, OnboardingStep, UserRole, SubscriptionPlan } from "../enums"
 
 export interface IUser {
   id: string
@@ -76,4 +76,25 @@ export interface IServiceResponse<T = any> {
   data?: T
   error?: string
   statusCode: number
+}
+
+export interface ISubscription extends Document {
+  fullName: string
+  email: string
+  mobile: string
+  country?: string
+  state?: string
+  city?: string
+  pincode?: string
+  address?: string
+  plan: SubscriptionPlan
+  applied_coupon?: string
+  invoiceId?: string
+  transactionId?: string
+  invoiceDate?: Date
+  redeemCode?: string
+  applied: boolean
+  applyDate?: Date
+  createdAt: Date
+  expiryDate?: Date
 }

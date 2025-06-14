@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .invoice-details {
+            margin-bottom: 30px;
+        }
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-details th, .invoice-details td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-items {
+            margin-bottom: 30px;
+        }
+        .invoice-items table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-items th, .invoice-items td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-total {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .redeem-code {
+            background-color: #007bff;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Subscription Invoice</h1>
+        </div>
+        
+        <div class="invoice-details">
+            <table>
+                <tr>
+                    <th>Invoice Number:</th>
+                    <td><%= invoiceNo %></td>
+                </tr>
+                <tr>
+                    <th>Date:</th>
+                    <td><%= invoiceDate %></td>
+                </tr>
+                <tr>
+                    <th>Customer:</th>
+                    <td><%= fullName %></td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td><%= email %></td>
+                </tr>
+                <tr>
+                    <th>Address:</th>
+                    <td><%= address %></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="invoice-items">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= plan %> Subscription</td>
+                        <td>₹<%= planPrice.toFixed(2) %></td>
+                    </tr>
+                    <% if (couponDiscount > 0) { %>
+                    <tr>
+                        <td>Coupon Discount</td>
+                        <td>-₹<%= couponDiscount.toFixed(2) %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            
+            <div class="invoice-total">
+                <p>Total: ₹<%= total.toFixed(2) %></p>
+            </div>
+        </div>
+        
+        <p>Thank you for your subscription! To activate your subscription, please use the following redeem code:</p>
+        
+        <div class="redeem-code">
+            <%= redeemCode %>
+        </div>
+        
+        <p>Please keep this code safe as you will need it to activate your subscription in the app.</p>
+        
+        <div class="footer">
+            <p>If you have any questions, please contact our support team.</p>
+            <p>© <%= new Date().getFullYear() %> Your App Name. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

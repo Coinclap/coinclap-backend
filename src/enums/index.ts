@@ -5,6 +5,11 @@ export enum UserRole {
   GUEST = "guest",
 }
 
+export enum SpotlightUserType {
+  STUDENT = "STUDENT",
+  PROFESSIONAL = "PROFESSIONAL",
+}
+
 export enum Gender {
   MALE = "MALE",
   FEMALE = "FEMALE",
@@ -65,4 +70,10 @@ export enum CacheKeys {
   RATE_LIMIT_PREFIX = "rate_limit:",
   OTP_PREFIX = "otp:",
   USERNAME_PREFIX = "username:",
+}
+
+export enum SubscriptionPlan {
+  FREE = "FREE",
+  PRIME = "PRIME",
+  PRIME_PLUS = "PRIME+",
 }

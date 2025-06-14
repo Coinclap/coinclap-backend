@@ -1,8 +1,7 @@
 import { Environment } from "../enums"
-import dotenv from 'dotenv' 
+import dotenv from "dotenv"
 
 dotenv.config()
-
 export class AppConfig {
   private static instance: AppConfig
 
@@ -27,6 +26,10 @@ export class AppConfig {
   public readonly awsSecretKey: string
   public readonly awsRegion: string
   public readonly awsS3Bucket: string
+  public readonly useAmazonSES: boolean
+  public readonly razorpayKeyId: string
+  public readonly razorpayKeySecret: string
+  public readonly razorpayWebhookSecret: string
 
   private constructor() {
     this.port = Number.parseInt(process.env.PORT || "3000", 10)
@@ -37,7 +40,7 @@ export class AppConfig {
     this.rateLimitWindowMs = Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS || "900000", 10) // 15 minutes
     this.rateLimitMaxRequests = Number.parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || "100", 10)
     this.logLevel = process.env.LOG_LEVEL || "info"
-    this.redisUrl = process.env.REDIS_URL
+    this.redisUrl = process.env.REDIS_URL || "redis://localhost:6379"
     this.otpExpiryMinutes = Number.parseInt(process.env.OTP_EXPIRY_MINUTES || "10", 10)
     this.sendRealOtp = process.env.SEND_REAL_OTP === "true"
     this.emailFrom = process.env.EMAIL_FROM || "noreply@example.com"
@@ -50,6 +53,10 @@ export class AppConfig {
     this.awsSecretKey = process.env.AWS_SECRET_ACCESS_KEY || ""
     this.awsRegion = process.env.AWS_REGION || "us-east-1"
     this.awsS3Bucket = process.env.AWS_S3_BUCKET || "user-profile-images"
+    this.useAmazonSES = process.env.USE_AMAZON_SES === "true"
+    this.razorpayKeyId = process.env.RAZORPAY_KEY_ID || ""
+    this.razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || ""
+    this.razorpayWebhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || ""
   }
 
   public static getInstance(): AppConfig {

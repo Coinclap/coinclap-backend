@@ -14,7 +14,9 @@ import { Routes } from "./routes"
 import { ErrorMiddleware } from "./middleware/error.middleware"
 import { RateLimitMiddleware } from "./middleware/rate-limit.middleware"
 import { swaggerSpec } from "./config/swagger"
+import dotenv from "dotenv"
 
+dotenv.config()
 export class App {
   private app: Application
   private config: AppConfig

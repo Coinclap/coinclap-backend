@@ -1,7 +1,9 @@
 import mongoose from "mongoose"
 import { Logger } from "../utils/logger"
 import { DatabaseEvents } from "../enums"
+import dotenv from "dotenv"
 
+dotenv.config()
 export class DatabaseConfig {
   private static instance: DatabaseConfig
   private logger: Logger
@@ -9,7 +11,7 @@ export class DatabaseConfig {
 
   private constructor() {
     this.logger = Logger.getInstance()
-    this.connectionString = process.env.MONGODB_URI || "mongodb://localhost:27017/"
+    this.connectionString = process.env.MONGODB_URI || "mongodb+srv://coinclap:coinclap@cluster0.td1mmc9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   }
 
   public static getInstance(): DatabaseConfig {

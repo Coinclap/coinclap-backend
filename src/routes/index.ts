@@ -1,5 +1,11 @@
 import { Router } from "express"
 import { UserRoutes } from "./user.routes"
+import { PlanRoutes } from "./plan.routes"
+import { CouponRoutes } from "./coupon.routes"
+import { SubscriptionRoutes } from "./subscription.routes"
+import { SpotlightRoutes } from "./spotlight.routes"
+import { CategoryRoutes } from "./category.routes"
+import { BlogRoutes } from "./blog.routes"
 
 export class Routes {
   private router: Router
@@ -22,10 +28,12 @@ export class Routes {
 
     // API routes
     this.router.use("/users", new UserRoutes().getRouter())
-
-    // Add more route modules here as they are created
-    // this.router.use('/posts', new PostRoutes().getRouter());
-    // this.router.use('/auth', new AuthRoutes().getRouter());
+    this.router.use("/plans", new PlanRoutes().getRouter())
+    this.router.use("/coupons", new CouponRoutes().getRouter())
+    this.router.use("/subscriptions", new SubscriptionRoutes().getRouter())
+    this.router.use("/spotlights", new SpotlightRoutes().getRouter())
+    this.router.use("/categories", new CategoryRoutes().getRouter())
+    this.router.use("/blogs", new BlogRoutes().getRouter())
   }
 
   public getRouter(): Router {

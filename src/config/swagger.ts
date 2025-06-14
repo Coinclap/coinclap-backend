@@ -2,7 +2,7 @@ import swaggerJsdoc from "swagger-jsdoc"
 import { AppConfig } from "./app"
 
 const config = AppConfig.getInstance()
-
+const serverUrl = process.env.SERVER_URL || `http://localhost:${config.port}`
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -17,13 +17,11 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${config.port}/api/v1`,
-        description: "Development server",
+        url: `${serverUrl}/api/v1`,
+        description: config.isDevelopment()
+          ? "Development server"
+          : "Production server",
       },
-    //   {
-    //     url: "https://api.yourapp.com/api/v1",
-    //     description: "Production server",
-    //   },
     ],
     components: {
       securitySchemes: {

@@ -555,62 +555,119 @@ export class UserRoutes {
       ErrorMiddleware.asyncHandler(this.userController.updateUserDetails),
     )
 
-    // /**
-    //  * @swagger
-    //  * /users/upload-url:
-    //  *   get:
-    //  *     summary: Get presigned URL for image upload
-    //  *     tags: [Users]
-    //  *     security:
-    //  *       - bearerAuth: []
-    //  *     parameters:
-    //  *       - in: query
-    //  *         name: fileType
-    //  *         required: true
-    //  *         schema:
-    //  *           type: string
-    //  *           pattern: '^image\/(jpeg|png|jpg|gif)$'
-    //  *         example: "image/jpeg"
-    //  *     responses:
-    //  *       200:
-    //  *         description: Upload URL generated successfully
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               allOf:
-    //  *                 - $ref: '#/components/schemas/ApiResponse'
-    //  *                 - type: object
-    //  *                   properties:
-    //  *                     data:
-    //  *                       type: object
-    //  *                       properties:
-    //  *                         uploadUrl:
-    //  *                           type: string
-    //  *                           format: uri
-    //  *                         key:
-    //  *                           type: string
-    //  *                         profileImageUrl:
-    //  *                           type: string
-    //  *                           format: uri
-    //  *       400:
-    //  *         description: Invalid file type
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               $ref: '#/components/schemas/Error'
-    //  *       401:
-    //  *         description: Unauthorized
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               $ref: '#/components/schemas/Error'
-    //  */
-    // this.router.get(
-    //   "/upload-url",
-    //   RateLimitMiddleware.moderate,
-    //   AuthMiddleware.authenticate,
-    //   ErrorMiddleware.asyncHandler(this.userController.getUploadUrl),
-    // )
+    /**
+     * @swagger
+     * /users/profile-image-url:
+     *   get:
+     *     summary: Get presigned URL for profile image upload
+     *     tags: [Users]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: query
+     *         name: fileType
+     *         required: true
+     *         schema:
+     *           type: string
+     *           enum: [image/jpeg, image/jpg, image/png]
+     *         example: "image/jpeg"
+     *     responses:
+     *       200:
+     *         description: Upload URL generated successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               allOf:
+     *                 - $ref: '#/components/schemas/ApiResponse'
+     *                 - type: object
+     *                   properties:
+     *                     data:
+     *                       type: object
+     *                       properties:
+     *                         uploadUrl:
+     *                           type: string
+     *                           format: uri
+     *                         key:
+     *                           type: string
+     *                         profileImageUrl:
+     *                           type: string
+     *                           format: uri
+     *       400:
+     *         description: Invalid file type
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     *       401:
+     *         description: Unauthorized
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     */
+    this.router.get(
+      "/profile-image-url",
+      RateLimitMiddleware.moderate,
+      AuthMiddleware.authenticate,
+      ErrorMiddleware.asyncHandler(this.userController.getProfileImageUrl),
+    )
+
+    /**
+     * @swagger
+     * /users/upload-url:
+     *   get:
+     *     summary: Get presigned URL for image upload
+     *     tags: [Users]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: query
+     *         name: fileType
+     *         required: true
+     *         schema:
+     *           type: string
+     *           pattern: '^image\/(jpeg|png|jpg|gif)$'
+     *         example: "image/jpeg"
+     *     responses:
+     *       200:
+     *         description: Upload URL generated successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               allOf:
+     *                 - $ref: '#/components/schemas/ApiResponse'
+     *                 - type: object
+     *                   properties:
+     *                     data:
+     *                       type: object
+     *                       properties:
+     *                         uploadUrl:
+     *                           type: string
+     *                           format: uri
+     *                         key:
+     *                           type: string
+     *                         profileImageUrl:
+     *                           type: string
+     *                           format: uri
+     *       400:
+     *         description: Invalid file type
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     *       401:
+     *         description: Unauthorized
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     */
+    this.router.get(
+      "/upload-url",
+      RateLimitMiddleware.moderate,
+      AuthMiddleware.authenticate,
+      ErrorMiddleware.asyncHandler(this.userController.getUploadUrl),
+    )
 
     /**
      * @swagger
@@ -712,97 +769,97 @@ export class UserRoutes {
       ErrorMiddleware.asyncHandler(this.userController.searchUsers),
     )
 
-    // /**
-    //  * @swagger
-    //  * /users:
-    //  *   get:
-    //  *     summary: Get all users (Admin/Moderator only)
-    //  *     tags: [Users]
-    //  *     security:
-    //  *       - bearerAuth: []
-    //  *     parameters:
-    //  *       - in: query
-    //  *         name: page
-    //  *         schema:
-    //  *           type: integer
-    //  *           minimum: 1
-    //  *           default: 1
-    //  *         example: 1
-    //  *       - in: query
-    //  *         name: limit
-    //  *         schema:
-    //  *           type: integer
-    //  *           minimum: 1
-    //  *           maximum: 100
-    //  *           default: 10
-    //  *         example: 10
-    //  *       - in: query
-    //  *         name: sortBy
-    //  *         schema:
-    //  *           type: string
-    //  *           enum: [createdAt, updatedAt, fullName, email, username]
-    //  *           default: createdAt
-    //  *         example: "createdAt"
-    //  *       - in: query
-    //  *         name: sortOrder
-    //  *         schema:
-    //  *           type: string
-    //  *           enum: [asc, desc]
-    //  *           default: desc
-    //  *         example: "desc"
-    //  *     responses:
-    //  *       200:
-    //  *         description: Users retrieved successfully
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               allOf:
-    //  *                 - $ref: '#/components/schemas/ApiResponse'
-    //  *                 - type: object
-    //  *                   properties:
-    //  *                     data:
-    //  *                       type: object
-    //  *                       properties:
-    //  *                         data:
-    //  *                           type: array
-    //  *                           items:
-    //  *                             $ref: '#/components/schemas/User'
-    //  *                         pagination:
-    //  *                           type: object
-    //  *                           properties:
-    //  *                             currentPage:
-    //  *                               type: integer
-    //  *                             totalPages:
-    //  *                               type: integer
-    //  *                             totalItems:
-    //  *                               type: integer
-    //  *                             itemsPerPage:
-    //  *                               type: integer
-    //  *                             hasNext:
-    //  *                               type: boolean
-    //  *                             hasPrev:
-    //  *                               type: boolean
-    //  *       401:
-    //  *         description: Unauthorized
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               $ref: '#/components/schemas/Error'
-    //  *       403:
-    //  *         description: Insufficient permissions
-    //  *         content:
-    //  *           application/json:
-    //  *             schema:
-    //  *               $ref: '#/components/schemas/Error'
-    //  */
-    // this.router.get(
-    //   "/",
-    //   RateLimitMiddleware.moderate,
-    //   AuthMiddleware.authenticate,
-    //   AuthMiddleware.authorize([UserRole.ADMIN, UserRole.MODERATOR]),
-    //   ValidationMiddleware.validateQuery(UserValidator.paginationQuery),
-    //   ErrorMiddleware.asyncHandler(this.userController.getAllUsers),
-    // )
+    /**
+     * @swagger
+     * /users:
+     *   get:
+     *     summary: Get all users (Admin/Moderator only)
+     *     tags: [Users]
+     *     security:
+     *       - bearerAuth: []
+     *     parameters:
+     *       - in: query
+     *         name: page
+     *         schema:
+     *           type: integer
+     *           minimum: 1
+     *           default: 1
+     *         example: 1
+     *       - in: query
+     *         name: limit
+     *         schema:
+     *           type: integer
+     *           minimum: 1
+     *           maximum: 100
+     *           default: 10
+     *         example: 10
+     *       - in: query
+     *         name: sortBy
+     *         schema:
+     *           type: string
+     *           enum: [createdAt, updatedAt, fullName, email, username]
+     *           default: createdAt
+     *         example: "createdAt"
+     *       - in: query
+     *         name: sortOrder
+     *         schema:
+     *           type: string
+     *           enum: [asc, desc]
+     *           default: desc
+     *         example: "desc"
+     *     responses:
+     *       200:
+     *         description: Users retrieved successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               allOf:
+     *                 - $ref: '#/components/schemas/ApiResponse'
+     *                 - type: object
+     *                   properties:
+     *                     data:
+     *                       type: object
+     *                       properties:
+     *                         data:
+     *                           type: array
+     *                           items:
+     *                             $ref: '#/components/schemas/User'
+     *                         pagination:
+     *                           type: object
+     *                           properties:
+     *                             currentPage:
+     *                               type: integer
+     *                             totalPages:
+     *                               type: integer
+     *                             totalItems:
+     *                               type: integer
+     *                             itemsPerPage:
+     *                               type: integer
+     *                             hasNext:
+     *                               type: boolean
+     *                             hasPrev:
+     *                               type: boolean
+     *       401:
+     *         description: Unauthorized
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     *       403:
+     *         description: Insufficient permissions
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Error'
+     */
+    this.router.get(
+      "/",
+      RateLimitMiddleware.moderate,
+      AuthMiddleware.authenticate,
+      AuthMiddleware.authorize([UserRole.ADMIN, UserRole.MODERATOR]),
+      ValidationMiddleware.validateQuery(UserValidator.paginationQuery),
+      ErrorMiddleware.asyncHandler(this.userController.getAllUsers),
+    )
 
     /**
      * @swagger

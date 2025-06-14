@@ -233,4 +233,40 @@ export class UserController extends BaseController {
       this.handleControllerError(error, res, "resetPassword")
     }
   }
+
+  public getProfileImageUrl = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = req.user?.userId
+      if (!userId) {
+        this.sendError(res, "User not authenticated", HttpStatusCode.UNAUTHORIZED)
+        return
+      }
+
+      const fileType = req.query.fileType as string
+      if (!fileType || !fileType.match(/^image\/(jpeg|png|jpg)$/)) {
+        this.sendError(res, "Invalid file type. Only jpg, jpeg, and png are allowed.", HttpStatusCode.BAD_REQUEST)
+        return
+      }
+
+      // Check file size limit (client-side validation)
+      const maxSizeMB = 5
+      this.logger.info(`Generating profile image upload URL for user ${userId}, file type: ${fileType}`)
+
+      const extension = fileType.split("/")[1]
+      const key = `profile-images/${userId}/${uuidv4()}.${extension}`
+      const url = await this.s3Service.generatePresignedUrl(key, fileType, 300) // 5 minutes expiry
+
+      this.sendResponse(
+        res,
+        this.createSuccessResponse({
+          uploadUrl: url,
+          key,
+          profileImageUrl: this.s3Service.getPublicUrl(key),
+        }),
+        "Profile image upload URL generated successfully",
+      )
+    } catch (error) {
+      this.handleControllerError(error, res, "getProfileImageUrl")
+    }
+  }
 }

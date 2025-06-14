@@ -7,7 +7,7 @@ jest.mock("../utils/logger")
 // Setup test database
 beforeAll(async () => {
   process.env.NODE_ENV = "test"
-  process.env.MONGODB_URI = "mongodb://localhost:27017/express-app-test"
+  process.env.MONGODB_URI = "mongodb+srv://coinclap:coinclap@cluster0.td1mmc9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
   const database = DatabaseConfig.getInstance()
   await database.connect()
