@@ -18,7 +18,7 @@ export class EmailService {
   private constructor() {
     this.logger = Logger.getInstance();
     this.config = AppConfig.getInstance();
-    this.sendRealEmails = this.config.sendRealOtp;
+    this.sendRealEmails = this.config.sendRealEmail;
     this.useAmazonSES = this.config.useAmazonSES;
 
     if (this.useAmazonSES) {
@@ -38,6 +38,9 @@ export class EmailService {
         auth: {
           user: this.config.smtpUser,
           pass: this.config.smtpPass,
+        },
+        tls: {
+          rejectUnauthorized: false, // ⚠️ disables SSL cert verification
         },
       });
     }

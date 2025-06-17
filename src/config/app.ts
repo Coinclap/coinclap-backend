@@ -16,6 +16,7 @@ export class AppConfig {
   public readonly redisUrl: string;
   public readonly otpExpiryMinutes: number;
   public readonly sendRealOtp: boolean;
+  public readonly sendRealEmail: boolean;
   public readonly emailFrom: string;
   public readonly smtpHost: string;
   public readonly smtpPort: number;
@@ -43,6 +44,7 @@ export class AppConfig {
     this.redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
     this.otpExpiryMinutes = Number.parseInt(process.env.OTP_EXPIRY_MINUTES || '10', 10);
     this.sendRealOtp = process.env.SEND_REAL_OTP === 'true';
+    this.sendRealEmail = process.env.SEND_REAL_EMAIL === 'true';
     this.emailFrom = process.env.EMAIL_FROM || 'noreply@example.com';
     this.smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
     this.smtpPort = Number.parseInt(process.env.SMTP_PORT || '587', 10);
