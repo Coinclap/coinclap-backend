@@ -1,11 +1,11 @@
-import { Router } from "express"
-import { CategoryController } from "../controllers/category.controller"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { CategoryValidator } from "../validators/category.validator"
-import { UserRole } from "../enums"
+import { Router } from 'express';
+import { CategoryController } from '../controllers/category.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { CategoryValidator } from '../validators/category.validator';
+import { UserRole } from '../enums';
 
 /**
  * @swagger
@@ -15,13 +15,13 @@ import { UserRole } from "../enums"
  */
 
 export class CategoryRoutes {
-  private router: Router
-  private categoryController: CategoryController
+  private router: Router;
+  private categoryController: CategoryController;
 
   constructor() {
-    this.router = Router()
-    this.categoryController = new CategoryController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.categoryController = new CategoryController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -54,10 +54,10 @@ export class CategoryRoutes {
      *                         $ref: '#/components/schemas/Category'
      */
     this.router.get(
-      "/",
+      '/',
       RateLimitMiddleware.lenient,
-      ErrorMiddleware.asyncHandler(this.categoryController.getAllCategories),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.getAllCategories)
+    );
 
     /**
      * @swagger
@@ -92,11 +92,11 @@ export class CategoryRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(CategoryValidator.categoryIdParam),
-      ErrorMiddleware.asyncHandler(this.categoryController.getCategoryById),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.getCategoryById)
+    );
 
     /**
      * @swagger
@@ -131,11 +131,11 @@ export class CategoryRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/slug/:slug",
+      '/slug/:slug',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(CategoryValidator.categorySlugParam),
-      ErrorMiddleware.asyncHandler(this.categoryController.getCategoryBySlug),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.getCategoryBySlug)
+    );
 
     /**
      * @swagger
@@ -204,13 +204,13 @@ export class CategoryRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/",
+      '/',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validate(CategoryValidator.createCategory),
-      ErrorMiddleware.asyncHandler(this.categoryController.createCategory),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.createCategory)
+    );
 
     /**
      * @swagger
@@ -289,14 +289,14 @@ export class CategoryRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.put(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(CategoryValidator.categoryIdParam),
       ValidationMiddleware.validate(CategoryValidator.updateCategory),
-      ErrorMiddleware.asyncHandler(this.categoryController.updateCategory),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.updateCategory)
+    );
 
     /**
      * @swagger
@@ -345,16 +345,16 @@ export class CategoryRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.delete(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(CategoryValidator.categoryIdParam),
-      ErrorMiddleware.asyncHandler(this.categoryController.deleteCategory),
-    )
+      ErrorMiddleware.asyncHandler(this.categoryController.deleteCategory)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

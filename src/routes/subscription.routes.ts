@@ -1,10 +1,10 @@
-import { Router } from "express"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { SubscriptionValidator } from "../validators/subscription.validator"
-import { SubscriptionController } from "../controllers/subscription.controller"
+import { Router } from 'express';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { SubscriptionValidator } from '../validators/subscription.validator';
+import { SubscriptionController } from '../controllers/subscription.controller';
 
 /**
  * @swagger
@@ -14,13 +14,13 @@ import { SubscriptionController } from "../controllers/subscription.controller"
  */
 
 export class SubscriptionRoutes {
-  private router: Router
-  private subscriptionController: SubscriptionController
+  private router: Router;
+  private subscriptionController: SubscriptionController;
 
   constructor() {
-    this.router = Router()
-    this.subscriptionController = new SubscriptionController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.subscriptionController = new SubscriptionController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -117,11 +117,11 @@ export class SubscriptionRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/initiate",
+      '/initiate',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(SubscriptionValidator.initiateSubscription),
-      ErrorMiddleware.asyncHandler(this.subscriptionController.initiateSubscription),
-    )
+      ErrorMiddleware.asyncHandler(this.subscriptionController.initiateSubscription)
+    );
 
     /**
      * @swagger
@@ -175,11 +175,11 @@ export class SubscriptionRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/verify-payment",
+      '/verify-payment',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(SubscriptionValidator.verifyPayment),
-      ErrorMiddleware.asyncHandler(this.subscriptionController.verifyPayment),
-    )
+      ErrorMiddleware.asyncHandler(this.subscriptionController.verifyPayment)
+    );
 
     /**
      * @swagger
@@ -239,12 +239,12 @@ export class SubscriptionRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/redeem",
+      '/redeem',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validate(SubscriptionValidator.redeemCode),
-      ErrorMiddleware.asyncHandler(this.subscriptionController.redeemCode),
-    )
+      ErrorMiddleware.asyncHandler(this.subscriptionController.redeemCode)
+    );
 
     /**
      * @swagger
@@ -276,11 +276,11 @@ export class SubscriptionRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/my",
+      '/my',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.subscriptionController.getUserSubscriptions),
-    )
+      ErrorMiddleware.asyncHandler(this.subscriptionController.getUserSubscriptions)
+    );
 
     /**
      * @swagger
@@ -310,14 +310,14 @@ export class SubscriptionRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/active",
+      '/active',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.subscriptionController.getActiveSubscription),
-    )
+      ErrorMiddleware.asyncHandler(this.subscriptionController.getActiveSubscription)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

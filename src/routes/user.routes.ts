@@ -1,11 +1,11 @@
-import { Router } from "express"
-import { UserController } from "../controllers/user.controller"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { UserValidator } from "../validators/user.validator"
-import { UserRole } from "../enums"
+import { Router } from 'express';
+import { UserController } from '../controllers/user.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { UserValidator } from '../validators/user.validator';
+import { UserRole } from '../enums';
 
 /**
  * @swagger
@@ -15,13 +15,13 @@ import { UserRole } from "../enums"
  */
 
 export class UserRoutes {
-  private router: Router
-  private userController: UserController
+  private router: Router;
+  private userController: UserController;
 
   constructor() {
-    this.router = Router()
-    this.userController = new UserController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.userController = new UserController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -104,11 +104,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/register",
+      '/register',
       RateLimitMiddleware.registration,
       ValidationMiddleware.validate(UserValidator.registerUser),
-      ErrorMiddleware.asyncHandler(this.userController.registerUser),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.registerUser)
+    );
 
     /**
      * @swagger
@@ -158,11 +158,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/login",
+      '/login',
       RateLimitMiddleware.auth,
       ValidationMiddleware.validate(UserValidator.loginUser),
-      ErrorMiddleware.asyncHandler(this.userController.loginUser),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.loginUser)
+    );
 
     /**
      * @swagger
@@ -197,11 +197,11 @@ export class UserRoutes {
      *                           example: true
      */
     this.router.get(
-      "/username/:username",
+      '/username/:username',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validateParams(UserValidator.usernameCheck),
-      ErrorMiddleware.asyncHandler(this.userController.checkUsername),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.checkUsername)
+    );
 
     /**
      * @swagger
@@ -231,11 +231,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/ApiResponse'
      */
     this.router.post(
-      "/forgot-password",
+      '/forgot-password',
       RateLimitMiddleware.forgotPassword,
       ValidationMiddleware.validate(UserValidator.forgotPassword),
-      ErrorMiddleware.asyncHandler(this.userController.forgotPassword),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.forgotPassword)
+    );
 
     /**
      * @swagger
@@ -286,11 +286,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/verify-forgot-password-otp",
+      '/verify-forgot-password-otp',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(UserValidator.verifyForgotPasswordOtp),
-      ErrorMiddleware.asyncHandler(this.userController.verifyForgotPasswordOtp),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.verifyForgotPasswordOtp)
+    );
 
     /**
      * @swagger
@@ -331,11 +331,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/reset-password",
+      '/reset-password',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(UserValidator.resetPassword),
-      ErrorMiddleware.asyncHandler(this.userController.resetPassword),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.resetPassword)
+    );
 
     /**
      * @swagger
@@ -389,12 +389,12 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/verify-email",
+      '/verify-email',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validate(UserValidator.verifyOtp),
-      ErrorMiddleware.asyncHandler(this.userController.verifyEmailOtp),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.verifyEmailOtp)
+    );
 
     /**
      * @swagger
@@ -448,12 +448,12 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/verify-phone",
+      '/verify-phone',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validate(UserValidator.verifyOtp),
-      ErrorMiddleware.asyncHandler(this.userController.verifyPhoneOtp),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.verifyPhoneOtp)
+    );
 
     /**
      * @swagger
@@ -548,12 +548,12 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/details",
+      '/details',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validate(UserValidator.userDetails),
-      ErrorMiddleware.asyncHandler(this.userController.updateUserDetails),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.updateUserDetails)
+    );
 
     /**
      * @swagger
@@ -606,11 +606,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/profile-image-url",
+      '/profile-image-url',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.userController.getProfileImageUrl),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.getProfileImageUrl)
+    );
 
     /**
      * @swagger
@@ -663,11 +663,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/upload-url",
+      '/upload-url',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.userController.getUploadUrl),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.getUploadUrl)
+    );
 
     /**
      * @swagger
@@ -703,11 +703,11 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/me",
+      '/me',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
-      ErrorMiddleware.asyncHandler(this.userController.getCurrentUser),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.getCurrentUser)
+    );
 
     /**
      * @swagger
@@ -762,12 +762,12 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/search",
+      '/search',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validateQuery(UserValidator.searchQuery),
-      ErrorMiddleware.asyncHandler(this.userController.searchUsers),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.searchUsers)
+    );
 
     /**
      * @swagger
@@ -853,13 +853,13 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/",
+      '/',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN, UserRole.MODERATOR]),
       ValidationMiddleware.validateQuery(UserValidator.paginationQuery),
-      ErrorMiddleware.asyncHandler(this.userController.getAllUsers),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.getAllUsers)
+    );
 
     /**
      * @swagger
@@ -909,15 +909,15 @@ export class UserRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       ValidationMiddleware.validateParams(UserValidator.userIdParam),
-      ErrorMiddleware.asyncHandler(this.userController.getUserById),
-    )
+      ErrorMiddleware.asyncHandler(this.userController.getUserById)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

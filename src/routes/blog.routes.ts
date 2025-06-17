@@ -1,11 +1,11 @@
-import { Router } from "express"
-import { BlogController } from "../controllers/blog.controller"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { BlogValidator } from "../validators/blog.validator"
-import { UserRole } from "../enums"
+import { Router } from 'express';
+import { BlogController } from '../controllers/blog.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { BlogValidator } from '../validators/blog.validator';
+import { UserRole } from '../enums';
 
 /**
  * @swagger
@@ -15,13 +15,13 @@ import { UserRole } from "../enums"
  */
 
 export class BlogRoutes {
-  private router: Router
-  private blogController: BlogController
+  private router: Router;
+  private blogController: BlogController;
 
   constructor() {
-    this.router = Router()
-    this.blogController = new BlogController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.blogController = new BlogController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -92,11 +92,11 @@ export class BlogRoutes {
      *                           $ref: '#/components/schemas/Pagination'
      */
     this.router.get(
-      "/",
+      '/',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateQuery(BlogValidator.blogQueryParams),
-      ErrorMiddleware.asyncHandler(this.blogController.getAllBlogs),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.getAllBlogs)
+    );
 
     /**
      * @swagger
@@ -131,11 +131,11 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(BlogValidator.blogIdParam),
-      ErrorMiddleware.asyncHandler(this.blogController.getBlogById),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.getBlogById)
+    );
 
     /**
      * @swagger
@@ -207,13 +207,13 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/",
+      '/',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validate(BlogValidator.createBlog),
-      ErrorMiddleware.asyncHandler(this.blogController.createBlog),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.createBlog)
+    );
 
     /**
      * @swagger
@@ -293,14 +293,14 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.put(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(BlogValidator.blogIdParam),
       ValidationMiddleware.validate(BlogValidator.updateBlog),
-      ErrorMiddleware.asyncHandler(this.blogController.updateBlog),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.updateBlog)
+    );
 
     /**
      * @swagger
@@ -349,13 +349,13 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.delete(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(BlogValidator.blogIdParam),
-      ErrorMiddleware.asyncHandler(this.blogController.deleteBlog),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.deleteBlog)
+    );
 
     /**
      * @swagger
@@ -404,13 +404,13 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.patch(
-      "/:id/publish",
+      '/:id/publish',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(BlogValidator.blogIdParam),
-      ErrorMiddleware.asyncHandler(this.blogController.publishBlog),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.publishBlog)
+    );
 
     /**
      * @swagger
@@ -459,16 +459,16 @@ export class BlogRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.patch(
-      "/:id/unpublish",
+      '/:id/unpublish',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(BlogValidator.blogIdParam),
-      ErrorMiddleware.asyncHandler(this.blogController.unpublishBlog),
-    )
+      ErrorMiddleware.asyncHandler(this.blogController.unpublishBlog)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

@@ -1,34 +1,34 @@
-import mongoose, { Schema, type Document } from "mongoose"
+import mongoose, { Schema, type Document } from 'mongoose';
 
 export enum TransactionStatus {
-  PENDING = "PENDING",
-  SUCCESS = "SUCCESS",
-  FAILED = "FAILED",
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
 }
 
 export interface ITransactionDocument extends Document {
-  fullName: string
-  email: string
-  mobile: string
-  countryCode: string
-  country: string
-  state: string
-  city: string
-  pincode: string
-  address: string
-  plan: string
-  appliedCoupon?: string
-  originalPrice: number
-  discountAmount: number
-  finalPrice: number
-  status: TransactionStatus
-  paymentId?: string
-  orderId?: string
-  redeemCode?: string
-  invoiceNo?: string
-  expiryDate?: Date
-  createdAt: Date
-  updatedAt: Date
+  fullName: string;
+  email: string;
+  mobile: string;
+  countryCode: string;
+  country: string;
+  state: string;
+  city: string;
+  pincode: string;
+  address: string;
+  plan: string;
+  appliedCoupon?: string;
+  originalPrice: number;
+  discountAmount: number;
+  finalPrice: number;
+  status: TransactionStatus;
+  paymentId?: string;
+  orderId?: string;
+  redeemCode?: string;
+  invoiceNo?: string;
+  expiryDate?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const transactionSchema = new Schema<ITransactionDocument>(
@@ -54,7 +54,7 @@ const transactionSchema = new Schema<ITransactionDocument>(
       type: String,
       required: true,
       trim: true,
-      default: "+91",
+      default: '+91',
     },
     country: {
       type: String,
@@ -135,12 +135,15 @@ const transactionSchema = new Schema<ITransactionDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-transactionSchema.index({ email: 1, status: 1 })
-transactionSchema.index({ redeemCode: 1 }, { sparse: true })
-transactionSchema.index({ invoiceNo: 1 }, { sparse: true })
+transactionSchema.index({ email: 1, status: 1 });
+transactionSchema.index({ redeemCode: 1 }, { sparse: true });
+transactionSchema.index({ invoiceNo: 1 }, { sparse: true });
 
-export const TransactionModel = mongoose.model<ITransactionDocument>("Transaction", transactionSchema)
+export const TransactionModel = mongoose.model<ITransactionDocument>(
+  'Transaction',
+  transactionSchema
+);

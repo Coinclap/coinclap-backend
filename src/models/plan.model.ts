@@ -1,5 +1,5 @@
-import { IPlanDocument } from "@/types/plan"
-import mongoose, { Schema, type Document } from "mongoose"
+import { IPlanDocument } from '@/types/plan';
+import mongoose, { Schema, type Document } from 'mongoose';
 
 const planSchema = new Schema<IPlanDocument>(
   {
@@ -32,11 +32,11 @@ const planSchema = new Schema<IPlanDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-planSchema.index({ name: 1 }, { unique: true })
-planSchema.index({ isActive: 1 })
+planSchema.index({ name: 1 }, { unique: true });
+planSchema.index({ isActive: 1 });
 
-export const PlanModel = mongoose.model<IPlanDocument>("Plan", planSchema)
+export const PlanModel = mongoose.model<IPlanDocument>('Plan', planSchema);

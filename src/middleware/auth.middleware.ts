@@ -1,117 +1,117 @@
-import type { Request, Response, NextFunction } from "express"
-import jwt from "jsonwebtoken"
-import { AppConfig } from "../config/app"
-import { HttpStatusCode, type UserRole, type OnboardingStep } from "../enums"
-import { Logger } from "../utils/logger"
+import type { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { AppConfig } from '../config/app';
+import { HttpStatusCode, type UserRole, type OnboardingStep } from '../enums';
+import { Logger } from '../utils/logger';
 
 interface JwtPayload {
-  userId: string
-  email: string
-  role?: UserRole
-  step?: OnboardingStep
+  userId: string;
+  email: string;
+  role?: UserRole;
+  step?: OnboardingStep;
 }
 
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload
+      user?: JwtPayload;
     }
   }
 }
 
 export class AuthMiddleware {
-  private static config = AppConfig.getInstance()
-  private static logger = Logger.getInstance()
+  private static config = AppConfig.getInstance();
+  private static logger = Logger.getInstance();
 
   public static authenticate = (req: Request, res: Response, next: NextFunction): void => {
     try {
-      const authHeader = req.headers.authorization
+      const authHeader = req.headers.authorization;
 
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({
           success: false,
-          message: "Access token required",
+          message: 'Access token required',
           timestamp: new Date(),
-        })
-        return
+        });
+        return;
       }
 
-      const token = authHeader.substring(7)
+      const token = authHeader.substring(7);
 
-      const decoded = jwt.verify(token, AuthMiddleware.config.jwtSecret) as JwtPayload
-      req.user = decoded
+      const decoded = jwt.verify(token, AuthMiddleware.config.jwtSecret) as JwtPayload;
+      req.user = decoded;
 
-      next()
+      next();
     } catch (error) {
-      AuthMiddleware.logger.error("Authentication error:", error)
+      AuthMiddleware.logger.error('Authentication error:', error);
 
       if (error instanceof jwt.TokenExpiredError) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({
           success: false,
-          message: "Token expired",
+          message: 'Token expired',
           timestamp: new Date(),
-        })
-        return
+        });
+        return;
       }
 
       if (error instanceof jwt.JsonWebTokenError) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({
           success: false,
-          message: "Invalid token",
+          message: 'Invalid token',
           timestamp: new Date(),
-        })
-        return
+        });
+        return;
       }
 
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         success: false,
-        message: "Authentication failed",
+        message: 'Authentication failed',
         timestamp: new Date(),
-      })
+      });
     }
-  }
+  };
 
   public static authorize = (roles: UserRole[]) => {
     return (req: Request, res: Response, next: NextFunction): void => {
       if (!req.user) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({
           success: false,
-          message: "Authentication required",
+          message: 'Authentication required',
           timestamp: new Date(),
-        })
-        return
+        });
+        return;
       }
 
       if (req.user.role && !roles.includes(req.user.role)) {
         res.status(HttpStatusCode.FORBIDDEN).json({
           success: false,
-          message: "Insufficient permissions",
+          message: 'Insufficient permissions',
           timestamp: new Date(),
-        })
-        return
+        });
+        return;
       }
 
-      next()
-    }
-  }
+      next();
+    };
+  };
 
   public static optional = (req: Request, res: Response, next: NextFunction): void => {
     try {
-      const authHeader = req.headers.authorization
+      const authHeader = req.headers.authorization;
 
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        next()
-        return
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        next();
+        return;
       }
 
-      const token = authHeader.substring(7)
-      const decoded = jwt.verify(token, AuthMiddleware.config.jwtSecret) as JwtPayload
-      req.user = decoded
+      const token = authHeader.substring(7);
+      const decoded = jwt.verify(token, AuthMiddleware.config.jwtSecret) as JwtPayload;
+      req.user = decoded;
 
-      next()
+      next();
     } catch (error) {
       // For optional auth, we don't return an error, just continue without user
-      next()
+      next();
     }
-  }
+  };
 }

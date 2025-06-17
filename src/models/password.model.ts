@@ -1,16 +1,16 @@
-import mongoose, { Schema, type Document } from "mongoose"
-import bcrypt from "bcryptjs"
-import type { IPassword } from "../types"
+import mongoose, { Schema, type Document } from 'mongoose';
+import bcrypt from 'bcryptjs';
+import type { IPassword } from '../types';
 
-export interface IPasswordDocument extends Omit<IPassword, "id">, Document {
-  comparePassword(candidatePassword: string): Promise<boolean>
+export interface IPasswordDocument extends Omit<IPassword, 'id'>, Document {
+  comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const passwordSchema = new Schema<IPasswordDocument>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
       index: true,
     },
@@ -22,7 +22,7 @@ const passwordSchema = new Schema<IPasswordDocument>(
     },
     version: {
       type: String,
-      default: "v1",
+      default: 'v1',
     },
     isDeleted: {
       type: Boolean,
@@ -32,25 +32,27 @@ const passwordSchema = new Schema<IPasswordDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Pre-save middleware to hash password
-passwordSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next()
+passwordSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
 
   try {
-    const salt = await bcrypt.genSalt(12)
-    this.password = await bcrypt.hash(this.password, salt)
-    next()
+    const salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
   } catch (error) {
-    next(error as Error)
+    next(error as Error);
   }
-})
+});
 
 // Instance method to compare password
-passwordSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password)
-}
+passwordSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
-export const PasswordModel = mongoose.model<IPasswordDocument>("Password", passwordSchema)
+export const PasswordModel = mongoose.model<IPasswordDocument>('Password', passwordSchema);

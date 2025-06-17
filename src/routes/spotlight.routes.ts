@@ -1,9 +1,9 @@
-import { Router } from "express"
-import { SpotlightController } from "../controllers/spotlight.controller"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { SpotlightValidator } from "../validators/spotlight.validator"
+import { Router } from 'express';
+import { SpotlightController } from '../controllers/spotlight.controller';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { SpotlightValidator } from '../validators/spotlight.validator';
 
 /**
  * @swagger
@@ -13,13 +13,13 @@ import { SpotlightValidator } from "../validators/spotlight.validator"
  */
 
 export class SpotlightRoutes {
-  private router: Router
-  private spotlightController: SpotlightController
+  private router: Router;
+  private spotlightController: SpotlightController;
 
   constructor() {
-    this.router = Router()
-    this.spotlightController = new SpotlightController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.spotlightController = new SpotlightController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -101,11 +101,11 @@ export class SpotlightRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/submit",
+      '/submit',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(SpotlightValidator.submitSpotlight),
-      ErrorMiddleware.asyncHandler(this.spotlightController.submitSpotlight),
-    )
+      ErrorMiddleware.asyncHandler(this.spotlightController.submitSpotlight)
+    );
 
     /**
      * @swagger
@@ -157,11 +157,11 @@ export class SpotlightRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/upload-url",
+      '/upload-url',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validateQuery(SpotlightValidator.spotlightUploadUrl),
-      ErrorMiddleware.asyncHandler(this.spotlightController.getSpotlightUploadUrl),
-    )
+      ErrorMiddleware.asyncHandler(this.spotlightController.getSpotlightUploadUrl)
+    );
 
     /**
      * @swagger
@@ -185,13 +185,13 @@ export class SpotlightRoutes {
      *                         $ref: '#/components/schemas/Spotlight'
      */
     this.router.get(
-      "/",
+      '/',
       RateLimitMiddleware.lenient,
-      ErrorMiddleware.asyncHandler(this.spotlightController.getAllSpotlights),
-    )
+      ErrorMiddleware.asyncHandler(this.spotlightController.getAllSpotlights)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

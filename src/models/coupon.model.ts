@@ -1,12 +1,12 @@
-import mongoose, { Schema, type Document } from "mongoose"
+import mongoose, { Schema, type Document } from 'mongoose';
 
 export interface ICouponDocument extends Document {
-  coupon: string
-  discountInPercentage: number
-  validity: Date
-  isActive: boolean
-  createdAt: Date
-  updatedAt: Date
+  coupon: string;
+  discountInPercentage: number;
+  validity: Date;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const couponSchema = new Schema<ICouponDocument>(
@@ -37,12 +37,12 @@ const couponSchema = new Schema<ICouponDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-couponSchema.index({ coupon: 1 }, { unique: true })
-couponSchema.index({ validity: 1 })
-couponSchema.index({ isActive: 1 })
+couponSchema.index({ coupon: 1 }, { unique: true });
+couponSchema.index({ validity: 1 });
+couponSchema.index({ isActive: 1 });
 
-export const CouponModel = mongoose.model<ICouponDocument>("Coupon", couponSchema)
+export const CouponModel = mongoose.model<ICouponDocument>('Coupon', couponSchema);

@@ -1,31 +1,31 @@
 export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
-  MODERATOR = "moderator",
-  GUEST = "guest",
+  ADMIN = 'admin',
+  USER = 'user',
+  MODERATOR = 'moderator',
+  GUEST = 'guest',
 }
 
 export enum SpotlightUserType {
-  STUDENT = "STUDENT",
-  PROFESSIONAL = "PROFESSIONAL",
+  STUDENT = 'STUDENT',
+  PROFESSIONAL = 'PROFESSIONAL',
 }
 
 export enum Gender {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  OTHER = "OTHER",
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
 }
 
 export enum AccountType {
-  PERSONAL = "PERSONAL",
-  BUSINESS = "BUSINESS",
+  PERSONAL = 'PERSONAL',
+  BUSINESS = 'BUSINESS',
 }
 
 export enum OnboardingStep {
-  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
-  MOBILE_VERIFICATION = "MOBILE_VERIFICATION",
-  USER_DETAILS = "USER_DETAILS",
-  COMPLETED = "COMPLETED",
+  EMAIL_VERIFICATION = 'EMAIL_VERIFICATION',
+  MOBILE_VERIFICATION = 'MOBILE_VERIFICATION',
+  USER_DETAILS = 'USER_DETAILS',
+  COMPLETED = 'COMPLETED',
 }
 
 export enum HttpStatusCode {
@@ -44,36 +44,36 @@ export enum HttpStatusCode {
 }
 
 export enum LogLevel {
-  ERROR = "error",
-  WARN = "warn",
-  INFO = "info",
-  DEBUG = "debug",
+  ERROR = 'error',
+  WARN = 'warn',
+  INFO = 'info',
+  DEBUG = 'debug',
 }
 
 export enum Environment {
-  DEVELOPMENT = "development",
-  STAGING = "staging",
-  PRODUCTION = "production",
-  TEST = "test",
+  DEVELOPMENT = 'development',
+  STAGING = 'staging',
+  PRODUCTION = 'production',
+  TEST = 'test',
 }
 
 export enum DatabaseEvents {
-  CONNECTED = "connected",
-  DISCONNECTED = "disconnected",
-  ERROR = "error",
-  RECONNECTED = "reconnected",
+  CONNECTED = 'connected',
+  DISCONNECTED = 'disconnected',
+  ERROR = 'error',
+  RECONNECTED = 'reconnected',
 }
 
 export enum CacheKeys {
-  USER_PREFIX = "user:",
-  SESSION_PREFIX = "session:",
-  RATE_LIMIT_PREFIX = "rate_limit:",
-  OTP_PREFIX = "otp:",
-  USERNAME_PREFIX = "username:",
+  USER_PREFIX = 'user:',
+  SESSION_PREFIX = 'session:',
+  RATE_LIMIT_PREFIX = 'rate_limit:',
+  OTP_PREFIX = 'otp:',
+  USERNAME_PREFIX = 'username:',
 }
 
 export enum SubscriptionPlan {
-  FREE = "FREE",
-  PRIME = "PRIME",
-  PRIME_PLUS = "PRIME+",
+  FREE = 'FREE',
+  PRIME = 'PRIME',
+  PRIME_PLUS = 'PRIME+',
 }

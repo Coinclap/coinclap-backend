@@ -1,21 +1,21 @@
-import mongoose, { Schema, type Document } from "mongoose"
+import mongoose, { Schema, type Document } from 'mongoose';
 
 export interface ISubscriptionDocument extends Document {
-  userId: mongoose.Types.ObjectId
-  plan: string
-  transactionId: mongoose.Types.ObjectId
-  activationDate: Date
-  planExpiryDate: Date
-  isActive: boolean
-  createdAt: Date
-  updatedAt: Date
+  userId: mongoose.Types.ObjectId;
+  plan: string;
+  transactionId: mongoose.Types.ObjectId;
+  activationDate: Date;
+  planExpiryDate: Date;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const subscriptionSchema = new Schema<ISubscriptionDocument>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
       index: true,
     },
@@ -26,7 +26,7 @@ const subscriptionSchema = new Schema<ISubscriptionDocument>(
     },
     transactionId: {
       type: Schema.Types.ObjectId,
-      ref: "Transaction",
+      ref: 'Transaction',
       required: true,
     },
     activationDate: {
@@ -46,11 +46,14 @@ const subscriptionSchema = new Schema<ISubscriptionDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-subscriptionSchema.index({ userId: 1, isActive: 1 })
-subscriptionSchema.index({ planExpiryDate: 1 })
+subscriptionSchema.index({ userId: 1, isActive: 1 });
+subscriptionSchema.index({ planExpiryDate: 1 });
 
-export const SubscriptionModel = mongoose.model<ISubscriptionDocument>("Subscription", subscriptionSchema)
+export const SubscriptionModel = mongoose.model<ISubscriptionDocument>(
+  'Subscription',
+  subscriptionSchema
+);

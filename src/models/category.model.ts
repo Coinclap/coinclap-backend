@@ -1,12 +1,12 @@
-import mongoose, { Schema, type Document } from "mongoose"
+import mongoose, { Schema, type Document } from 'mongoose';
 
 export interface ICategoryDocument extends Document {
-  name: string
-  description?: string
-  slug: string
-  isActive: boolean
-  createdAt: Date
-  updatedAt: Date
+  name: string;
+  description?: string;
+  slug: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const categorySchema = new Schema<ICategoryDocument>(
@@ -38,12 +38,12 @@ const categorySchema = new Schema<ICategoryDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-categorySchema.index({ name: 1 }, { unique: true })
-categorySchema.index({ slug: 1 }, { unique: true })
-categorySchema.index({ isActive: 1 })
+categorySchema.index({ name: 1 }, { unique: true });
+categorySchema.index({ slug: 1 }, { unique: true });
+categorySchema.index({ isActive: 1 });
 
-export const CategoryModel = mongoose.model<ICategoryDocument>("Category", categorySchema)
+export const CategoryModel = mongoose.model<ICategoryDocument>('Category', categorySchema);

@@ -1,11 +1,11 @@
-import { Router } from "express"
-import { CouponController } from "../controllers/coupon.controller"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { CouponValidator } from "../validators/coupon.validator"
-import { UserRole } from "../enums"
+import { Router } from 'express';
+import { CouponController } from '../controllers/coupon.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { CouponValidator } from '../validators/coupon.validator';
+import { UserRole } from '../enums';
 
 /**
  * @swagger
@@ -15,13 +15,13 @@ import { UserRole } from "../enums"
  */
 
 export class CouponRoutes {
-  private router: Router
-  private couponController: CouponController
+  private router: Router;
+  private couponController: CouponController;
 
   constructor() {
-    this.router = Router()
-    this.couponController = new CouponController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.couponController = new CouponController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -53,7 +53,11 @@ export class CouponRoutes {
      *                       items:
      *                         $ref: '#/components/schemas/Coupon'
      */
-    this.router.get("/", RateLimitMiddleware.lenient, ErrorMiddleware.asyncHandler(this.couponController.getAllCoupons))
+    this.router.get(
+      '/',
+      RateLimitMiddleware.lenient,
+      ErrorMiddleware.asyncHandler(this.couponController.getAllCoupons)
+    );
 
     /**
      * @swagger
@@ -113,11 +117,11 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/check",
+      '/check',
       RateLimitMiddleware.moderate,
       ValidationMiddleware.validate(CouponValidator.checkCoupon),
-      ErrorMiddleware.asyncHandler(this.couponController.checkCoupon),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.checkCoupon)
+    );
 
     /**
      * @swagger
@@ -152,11 +156,11 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(CouponValidator.couponIdParam),
-      ErrorMiddleware.asyncHandler(this.couponController.getCouponById),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.getCouponById)
+    );
 
     /**
      * @swagger
@@ -191,11 +195,11 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/code/:code",
+      '/code/:code',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(CouponValidator.couponCodeParam),
-      ErrorMiddleware.asyncHandler(this.couponController.getCouponByCode),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.getCouponByCode)
+    );
 
     /**
      * @swagger
@@ -267,13 +271,13 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/",
+      '/',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validate(CouponValidator.createCoupon),
-      ErrorMiddleware.asyncHandler(this.couponController.createCoupon),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.createCoupon)
+    );
 
     /**
      * @swagger
@@ -353,14 +357,14 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.put(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(CouponValidator.couponIdParam),
       ValidationMiddleware.validate(CouponValidator.updateCoupon),
-      ErrorMiddleware.asyncHandler(this.couponController.updateCoupon),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.updateCoupon)
+    );
 
     /**
      * @swagger
@@ -409,16 +413,16 @@ export class CouponRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.delete(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(CouponValidator.couponIdParam),
-      ErrorMiddleware.asyncHandler(this.couponController.deleteCoupon),
-    )
+      ErrorMiddleware.asyncHandler(this.couponController.deleteCoupon)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }

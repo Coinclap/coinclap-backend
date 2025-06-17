@@ -1,9 +1,9 @@
-import mongoose, { Schema, type Document } from "mongoose"
-import type { IUser } from "../types"
-import { UserRole, Gender, AccountType, OnboardingStep } from "../enums"
+import mongoose, { Schema, type Document } from 'mongoose';
+import type { IUser } from '../types';
+import { UserRole, Gender, AccountType, OnboardingStep } from '../enums';
 
-export interface IUserDocument extends Omit<IUser, "id">, Document {
-  toJSON(): Partial<IUserDocument>
+export interface IUserDocument extends Omit<IUser, 'id'>, Document {
+  toJSON(): Partial<IUserDocument>;
 }
 
 const userSchema = new Schema<IUserDocument>(
@@ -22,7 +22,7 @@ const userSchema = new Schema<IUserDocument>(
     },
     countryCode: {
       type: String,
-      default: "+91",
+      default: '+91',
       trim: true,
     },
     email: {
@@ -72,11 +72,11 @@ const userSchema = new Schema<IUserDocument>(
       type: String,
       trim: true,
       validate: {
-        validator: function(v: string) {
-          return !v || /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v)
+        validator: function (v: string) {
+          return !v || /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v);
         },
-        message: "Please enter a valid website URL"
-      }
+        message: 'Please enter a valid website URL',
+      },
     },
     username: {
       type: String,
@@ -85,10 +85,12 @@ const userSchema = new Schema<IUserDocument>(
       sparse: true,
       index: true,
     },
-    areaOfInterests: [{
-      type: String,
-      trim: true,
-    }],
+    areaOfInterests: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     profileImageUrl: {
       type: String,
       trim: true,
@@ -119,19 +121,19 @@ const userSchema = new Schema<IUserDocument>(
   {
     timestamps: true,
     versionKey: false,
-  },
-)
+  }
+);
 
 // Indexes for performance
-userSchema.index({ email: 1, isActive: 1 })
-userSchema.index({ phoneNumber: 1, isActive: 1 })
-userSchema.index({ username: 1, isActive: 1 })
-userSchema.index({ role: 1, isActive: 1 })
+userSchema.index({ email: 1, isActive: 1 });
+userSchema.index({ phoneNumber: 1, isActive: 1 });
+userSchema.index({ username: 1, isActive: 1 });
+userSchema.index({ role: 1, isActive: 1 });
 
 // Transform output to exclude sensitive data
 userSchema.methods.toJSON = function () {
-  const userObject = this.toObject()
-  return userObject
-}
+  const userObject = this.toObject();
+  return userObject;
+};
 
-export const UserModel = mongoose.model<IUserDocument>("User", userSchema)
+export const UserModel = mongoose.model<IUserDocument>('User', userSchema);

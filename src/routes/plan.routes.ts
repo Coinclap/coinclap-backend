@@ -1,11 +1,11 @@
-import { Router } from "express"
-import { PlanController } from "../controllers/plan.controller"
-import { AuthMiddleware } from "../middleware/auth.middleware"
-import { ValidationMiddleware } from "../middleware/validation.middleware"
-import { RateLimitMiddleware } from "../middleware/rate-limit.middleware"
-import { ErrorMiddleware } from "../middleware/error.middleware"
-import { PlanValidator } from "../validators/plan.validator"
-import { UserRole } from "../enums"
+import { Router } from 'express';
+import { PlanController } from '../controllers/plan.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ValidationMiddleware } from '../middleware/validation.middleware';
+import { RateLimitMiddleware } from '../middleware/rate-limit.middleware';
+import { ErrorMiddleware } from '../middleware/error.middleware';
+import { PlanValidator } from '../validators/plan.validator';
+import { UserRole } from '../enums';
 
 /**
  * @swagger
@@ -15,13 +15,13 @@ import { UserRole } from "../enums"
  */
 
 export class PlanRoutes {
-  private router: Router
-  private planController: PlanController
+  private router: Router;
+  private planController: PlanController;
 
   constructor() {
-    this.router = Router()
-    this.planController = new PlanController()
-    this.initializeRoutes()
+    this.router = Router();
+    this.planController = new PlanController();
+    this.initializeRoutes();
   }
 
   private initializeRoutes(): void {
@@ -53,7 +53,11 @@ export class PlanRoutes {
      *                       items:
      *                         $ref: '#/components/schemas/Plan'
      */
-    this.router.get("/", RateLimitMiddleware.lenient, ErrorMiddleware.asyncHandler(this.planController.getAllPlans))
+    this.router.get(
+      '/',
+      RateLimitMiddleware.lenient,
+      ErrorMiddleware.asyncHandler(this.planController.getAllPlans)
+    );
 
     /**
      * @swagger
@@ -88,11 +92,11 @@ export class PlanRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(PlanValidator.planIdParam),
-      ErrorMiddleware.asyncHandler(this.planController.getPlanById),
-    )
+      ErrorMiddleware.asyncHandler(this.planController.getPlanById)
+    );
 
     /**
      * @swagger
@@ -127,11 +131,11 @@ export class PlanRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.get(
-      "/name/:name",
+      '/name/:name',
       RateLimitMiddleware.lenient,
       ValidationMiddleware.validateParams(PlanValidator.planNameParam),
-      ErrorMiddleware.asyncHandler(this.planController.getPlanByName),
-    )
+      ErrorMiddleware.asyncHandler(this.planController.getPlanByName)
+    );
 
     /**
      * @swagger
@@ -207,13 +211,13 @@ export class PlanRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.post(
-      "/",
+      '/',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validate(PlanValidator.createPlan),
-      ErrorMiddleware.asyncHandler(this.planController.createPlan),
-    )
+      ErrorMiddleware.asyncHandler(this.planController.createPlan)
+    );
 
     /**
      * @swagger
@@ -297,14 +301,14 @@ export class PlanRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.put(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(PlanValidator.planIdParam),
       ValidationMiddleware.validate(PlanValidator.updatePlan),
-      ErrorMiddleware.asyncHandler(this.planController.updatePlan),
-    )
+      ErrorMiddleware.asyncHandler(this.planController.updatePlan)
+    );
 
     /**
      * @swagger
@@ -353,16 +357,16 @@ export class PlanRoutes {
      *               $ref: '#/components/schemas/Error'
      */
     this.router.delete(
-      "/:id",
+      '/:id',
       RateLimitMiddleware.moderate,
       AuthMiddleware.authenticate,
       AuthMiddleware.authorize([UserRole.ADMIN]),
       ValidationMiddleware.validateParams(PlanValidator.planIdParam),
-      ErrorMiddleware.asyncHandler(this.planController.deletePlan),
-    )
+      ErrorMiddleware.asyncHandler(this.planController.deletePlan)
+    );
   }
 
   public getRouter(): Router {
-    return this.router
+    return this.router;
   }
 }
