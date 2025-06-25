@@ -25,7 +25,7 @@ export class SpotlightRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /spotlights/submit:
+     * /api/v1/spotlights/submit:
      *   post:
      *     summary: Submit a spotlight
      *     tags: [Spotlights]
@@ -109,7 +109,7 @@ export class SpotlightRoutes {
 
     /**
      * @swagger
-     * /spotlights/upload-url:
+     * /api/v1/spotlights/upload-url:
      *   get:
      *     summary: Get presigned URL for spotlight image upload
      *     tags: [Spotlights]
@@ -165,7 +165,7 @@ export class SpotlightRoutes {
 
     /**
      * @swagger
-     * /spotlights:
+     * /api/v1/spotlights:
      *   get:
      *     summary: Get all spotlights
      *     tags: [Spotlights]

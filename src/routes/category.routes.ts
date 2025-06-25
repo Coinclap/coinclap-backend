@@ -27,7 +27,7 @@ export class CategoryRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /categories:
+     * /api/v1/categories:
      *   get:
      *     summary: Get all categories
      *     tags: [Categories]
@@ -61,7 +61,7 @@ export class CategoryRoutes {
 
     /**
      * @swagger
-     * /categories/{id}:
+     * /api/v1/categories/{id}:
      *   get:
      *     summary: Get category by ID
      *     tags: [Categories]
@@ -100,7 +100,7 @@ export class CategoryRoutes {
 
     /**
      * @swagger
-     * /categories/slug/{slug}:
+     * /api/v1/categories/slug/{slug}:
      *   get:
      *     summary: Get category by slug
      *     tags: [Categories]
@@ -139,7 +139,7 @@ export class CategoryRoutes {
 
     /**
      * @swagger
-     * /categories:
+     * /api/v1/categories:
      *   post:
      *     summary: Create a new category
      *     tags: [Categories]
@@ -214,7 +214,7 @@ export class CategoryRoutes {
 
     /**
      * @swagger
-     * /categories/{id}:
+     * /api/v1/categories/{id}:
      *   put:
      *     summary: Update a category
      *     tags: [Categories]
@@ -300,7 +300,7 @@ export class CategoryRoutes {
 
     /**
      * @swagger
-     * /categories/{id}:
+     * /api/v1/categories/{id}:
      *   delete:
      *     summary: Delete a category (soft delete)
      *     tags: [Categories]

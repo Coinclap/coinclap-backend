@@ -26,7 +26,7 @@ export class SubscriptionRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /subscriptions/initiate:
+     * /api/v1/subscriptions/initiate:
      *   post:
      *     summary: Initiate a subscription payment
      *     tags: [Subscriptions]
@@ -125,7 +125,7 @@ export class SubscriptionRoutes {
 
     /**
      * @swagger
-     * /subscriptions/verify-payment:
+     * /api/v1/subscriptions/verify-payment:
      *   post:
      *     summary: Verify payment after successful transaction
      *     tags: [Subscriptions]
@@ -183,7 +183,7 @@ export class SubscriptionRoutes {
 
     /**
      * @swagger
-     * /subscriptions/redeem:
+     * /api/v1/subscriptions/redeem:
      *   post:
      *     summary: Redeem a subscription code
      *     tags: [Subscriptions]
@@ -248,7 +248,7 @@ export class SubscriptionRoutes {
 
     /**
      * @swagger
-     * /subscriptions/my:
+     * /api/v1/subscriptions/my:
      *   get:
      *     summary: Get current user's subscriptions
      *     tags: [Subscriptions]
@@ -284,7 +284,7 @@ export class SubscriptionRoutes {
 
     /**
      * @swagger
-     * /subscriptions/active:
+     * /api/v1/subscriptions/active:
      *   get:
      *     summary: Get current user's active subscription
      *     tags: [Subscriptions]

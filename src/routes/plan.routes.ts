@@ -27,7 +27,7 @@ export class PlanRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /plans:
+     * /api/v1/plans:
      *   get:
      *     summary: Get all plans
      *     tags: [Plans]
@@ -61,7 +61,7 @@ export class PlanRoutes {
 
     /**
      * @swagger
-     * /plans/{id}:
+     * /api/v1/plans/{id}:
      *   get:
      *     summary: Get plan by ID
      *     tags: [Plans]
@@ -100,7 +100,7 @@ export class PlanRoutes {
 
     /**
      * @swagger
-     * /plans/name/{name}:
+     * /api/v1/plans/name/{name}:
      *   get:
      *     summary: Get plan by name
      *     tags: [Plans]
@@ -139,7 +139,7 @@ export class PlanRoutes {
 
     /**
      * @swagger
-     * /plans:
+     * /api/v1/plans:
      *   post:
      *     summary: Create a new plan
      *     tags: [Plans]
@@ -221,7 +221,7 @@ export class PlanRoutes {
 
     /**
      * @swagger
-     * /plans/{id}:
+     * /api/v1/plans/{id}:
      *   put:
      *     summary: Update a plan
      *     tags: [Plans]
@@ -312,7 +312,7 @@ export class PlanRoutes {
 
     /**
      * @swagger
-     * /plans/{id}:
+     * /api/v1/plans/{id}:
      *   delete:
      *     summary: Delete a plan (soft delete)
      *     tags: [Plans]

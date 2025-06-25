@@ -27,7 +27,7 @@ export class BlogRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /blogs:
+     * /api/v1/blogs:
      *   get:
      *     summary: Get all blogs
      *     tags: [Blogs]
@@ -100,7 +100,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs/{id}:
+     * /api/v1/blogs/{id}:
      *   get:
      *     summary: Get blog by ID
      *     tags: [Blogs]
@@ -139,7 +139,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs:
+     * /api/v1/blogs:
      *   post:
      *     summary: Create a new blog
      *     tags: [Blogs]
@@ -217,7 +217,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs/{id}:
+     * /api/v1/blogs/{id}:
      *   put:
      *     summary: Update a blog
      *     tags: [Blogs]
@@ -304,7 +304,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs/{id}:
+     * /api/v1/blogs/{id}:
      *   delete:
      *     summary: Delete a blog
      *     tags: [Blogs]
@@ -359,7 +359,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs/{id}/publish:
+     * /api/v1/blogs/{id}/publish:
      *   patch:
      *     summary: Publish a blog
      *     tags: [Blogs]
@@ -414,7 +414,7 @@ export class BlogRoutes {
 
     /**
      * @swagger
-     * /blogs/{id}/unpublish:
+     * /api/v1/blogs/{id}/unpublish:
      *   patch:
      *     summary: Unpublish a blog
      *     tags: [Blogs]

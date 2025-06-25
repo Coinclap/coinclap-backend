@@ -27,7 +27,7 @@ export class UserRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /users/register:
+     * /api/v1/users/register:
      *   post:
      *     summary: Register a new user
      *     tags: [Users]
@@ -112,7 +112,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/login:
+     * /api/v1/users/login:
      *   post:
      *     summary: Login user
      *     tags: [Users]
@@ -166,7 +166,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/username/{username}:
+     * /api/v1/users/username/{username}:
      *   get:
      *     summary: Check username availability
      *     tags: [Users]
@@ -205,7 +205,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/forgot-password:
+     * /api/v1/users/forgot-password:
      *   post:
      *     summary: Request password reset
      *     tags: [Users]
@@ -239,7 +239,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/verify-forgot-password-otp:
+     * /api/v1/users/verify-forgot-password-otp:
      *   post:
      *     summary: Verify forgot password OTP
      *     tags: [Users]
@@ -294,7 +294,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/reset-password:
+     * /api/v1/users/reset-password:
      *   post:
      *     summary: Reset password with token
      *     tags: [Users]
@@ -339,7 +339,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/verify-email:
+     * /api/v1/users/verify-email:
      *   post:
      *     summary: Verify email OTP
      *     tags: [Users]
@@ -398,7 +398,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/verify-phone:
+     * /api/v1/users/verify-phone:
      *   post:
      *     summary: Verify phone OTP
      *     tags: [Users]
@@ -457,7 +457,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/details:
+     * /api/v1/users/details:
      *   post:
      *     summary: Update user details
      *     tags: [Users]
@@ -557,7 +557,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/profile-image-url:
+     * /api/v1/users/profile-image-url:
      *   get:
      *     summary: Get presigned URL for profile image upload
      *     tags: [Users]
@@ -614,7 +614,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/upload-url:
+     * /api/v1/users/upload-url:
      *   get:
      *     summary: Get presigned URL for image upload
      *     tags: [Users]
@@ -671,7 +671,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/me:
+     * /api/v1/users/me:
      *   get:
      *     summary: Get current user profile
      *     tags: [Users]
@@ -711,7 +711,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/search:
+     * /api/v1/users/search:
      *   get:
      *     summary: Search users
      *     tags: [Users]
@@ -771,7 +771,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users:
+     * /api/v1/users:
      *   get:
      *     summary: Get all users (Admin/Moderator only)
      *     tags: [Users]
@@ -863,7 +863,7 @@ export class UserRoutes {
 
     /**
      * @swagger
-     * /users/{id}:
+     * /api/v1/users/{id}:
      *   get:
      *     summary: Get user by ID
      *     tags: [Users]

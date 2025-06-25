@@ -27,13 +27,13 @@ export class Routes {
     });
 
     // API routes
-    this.router.use('/users', new UserRoutes().getRouter());
-    this.router.use('/plans', new PlanRoutes().getRouter());
-    this.router.use('/coupons', new CouponRoutes().getRouter());
-    this.router.use('/subscriptions', new SubscriptionRoutes().getRouter());
-    this.router.use('/spotlights', new SpotlightRoutes().getRouter());
-    this.router.use('/categories', new CategoryRoutes().getRouter());
-    this.router.use('/blogs', new BlogRoutes().getRouter());
+    this.router.use('/api/v1/users', new UserRoutes().getRouter());
+    this.router.use('/api/v1/plans', new PlanRoutes().getRouter());
+    this.router.use('/api/v1/coupons', new CouponRoutes().getRouter());
+    this.router.use('/api/v1/subscriptions', new SubscriptionRoutes().getRouter());
+    this.router.use('/api/v1/spotlights', new SpotlightRoutes().getRouter());
+    this.router.use('/api/v1/categories', new CategoryRoutes().getRouter());
+    this.router.use('/api/v1/blogs', new BlogRoutes().getRouter());
   }
 
   public getRouter(): Router {

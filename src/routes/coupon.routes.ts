@@ -27,7 +27,7 @@ export class CouponRoutes {
   private initializeRoutes(): void {
     /**
      * @swagger
-     * /coupons:
+     * /api/v1/coupons:
      *   get:
      *     summary: Get all coupons
      *     tags: [Coupons]
@@ -61,7 +61,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons/check:
+     * /api/v1/coupons/check:
      *   post:
      *     summary: Check coupon validity and get discount details
      *     tags: [Coupons]
@@ -125,7 +125,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons/{id}:
+     * /api/v1/coupons/{id}:
      *   get:
      *     summary: Get coupon by ID
      *     tags: [Coupons]
@@ -164,7 +164,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons/code/{code}:
+     * /api/v1/coupons/code/{code}:
      *   get:
      *     summary: Get coupon by code
      *     tags: [Coupons]
@@ -203,7 +203,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons:
+     * /api/v1/coupons:
      *   post:
      *     summary: Create a new coupon
      *     tags: [Coupons]
@@ -281,7 +281,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons/{id}:
+     * /api/v1/coupons/{id}:
      *   put:
      *     summary: Update a coupon
      *     tags: [Coupons]
@@ -368,7 +368,7 @@ export class CouponRoutes {
 
     /**
      * @swagger
-     * /coupons/{id}:
+     * /api/v1/coupons/{id}:
      *   delete:
      *     summary: Delete a coupon (soft delete)
      *     tags: [Coupons]
