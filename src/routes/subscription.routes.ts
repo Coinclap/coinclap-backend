@@ -28,7 +28,7 @@ export class SubscriptionRoutes {
      * @swagger
      * /api/v1/subscriptions/initiate:
      *   post:
-     *     summary: Initiate a subscription payment
+     *     summary: Initiate a subscription payment (Cashfree or Razorpay)
      *     tags: [Subscriptions]
      *     requestBody:
      *       required: true
@@ -103,6 +103,14 @@ export class SubscriptionRoutes {
      *                         key:
      *                           type: string
      *                           example: "rzp_test_1234567890"
+     *                         paymentGateway:
+     *                           type: string
+     *                           example: "cashfree"
+     *                           description: "The payment gateway used (cashfree or razorpay)"
+     *                         paymentSessionId:
+     *                           type: string
+     *                           example: "session_abc123"
+     *                           description: "Cashfree only: session ID for payment. Not present for Razorpay."
      *       400:
      *         description: Validation error
      *         content:
@@ -127,7 +135,7 @@ export class SubscriptionRoutes {
      * @swagger
      * /api/v1/subscriptions/verify-payment:
      *   post:
-     *     summary: Verify payment after successful transaction
+     *     summary: Verify payment after successful transaction (Cashfree or Razorpay)
      *     tags: [Subscriptions]
      *     requestBody:
      *       required: true
@@ -149,6 +157,10 @@ export class SubscriptionRoutes {
      *               signature:
      *                 type: string
      *                 example: "b2335e3a0bd75c9bf4c3c4f82cce84e54c2fbd0bcf4d5cca3b386c92f1"
+     *               paymentGateway:
+     *                 type: string
+     *                 example: "cashfree"
+     *                 description: "The payment gateway used (cashfree or razorpay)"
      *     responses:
      *       200:
      *         description: Payment verified successfully

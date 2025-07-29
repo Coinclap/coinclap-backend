@@ -204,7 +204,7 @@
               <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                 <tr>
                   <td>
-                    <p style="font-family: 'Lato', Arial, sans-serif;">Hi <%= fullName %>,</p>
+                    <p style="font-family: 'Lato', Arial, sans-serif;">Hi Arindam,</p>
                     <p style="font-family: 'Lato', Arial, sans-serif;">Thank you for purchasing a subscription! Here is an overview of your recent purchase:</p>
                     
                     <!-- Billing Information -->
@@ -213,17 +213,18 @@
                         <td width="50%" valign="top">
                           <h2>Invoiced to:</h2>
                           <p style="font-family: 'Lato', Arial, sans-serif;">
-                            <strong>Name:</strong> <%= fullName %><br>
-                            <strong>Email:</strong> <%= email %><br>
+                            <strong>Name:</strong> Arindam<br>
                             <strong>Address:</strong><br>
-                            <%= address %>
+                            Rabindra Nagar, Talbagan Mathkol,<br>
+                            Kolkata, Westbengal, 700065<br>
+                            India
                           </p>
                         </td>
                         <td width="50%" valign="top">
                           <h2>Invoice Details:</h2>
                           <p style="font-family: 'Lato', Arial, sans-serif;">
-                            <strong>Invoice No:</strong> <%= invoiceNo %><br>
-                            <strong>Invoice Date:</strong> <%= invoiceDate %>
+                            <strong>Invoice No:</strong> INV10000012<br>
+                            <strong>Invoice Date:</strong> 23 Jun 2020
                           </p>
                         </td>
                       </tr>
@@ -237,23 +238,27 @@
                         <th align="right">Amount</th>
                       </tr>
                       <tr>
-                        <td><%= plan %><br><small>Note:</small></td>
-                        <td align="right">₹<%= planPrice %></td>
+                        <td>CC Prime+ Monthly (Early Bird)<br><small>Note:</small></td>
+                        <td align="right">₹3,780</td>
                       </tr>
                       <tr>
-                        <td>Coupon</td>
-                        <td align="right">-₹<%= couponDiscount %></td>
+                        <td>Coupon <small>CCERLY50</small></td>
+                        <td align="right">-₹0.00</td>
+                      </tr>
+                      <tr>
+                        <td>GST</td>
+                        <td align="right">₹0.00</td>
                       </tr>
                       <tr class="total-row">
                         <td>Total</td>
-                        <td align="right">₹<%= total %></td>
+                        <td align="right">₹3,780</td>
                       </tr>
                     </table>
                     
                     <!-- Coupon Code -->
                     <div class="coupon-box">
                       <p><strong>Coupon Code:</strong></p>
-                      <p class="coupon-code"><%= redeemCode %></p>
+                      <p class="coupon-code">CC287asb9u31</p>
                     </div>
                     
                     <!-- Instructions -->

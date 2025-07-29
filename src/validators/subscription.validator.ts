@@ -64,12 +64,12 @@ export class SubscriptionValidator {
       'any.required': 'Order ID is required',
     }),
 
-    payment_id: Joi.string().trim().required().messages({
+    payment_id: Joi.string().trim().optional().messages({
       'string.empty': 'Payment ID is required',
       'any.required': 'Payment ID is required',
     }),
 
-    signature: Joi.string().trim().required().messages({
+    signature: Joi.string().trim().optional().messages({
       'string.empty': 'Signature is required',
       'any.required': 'Signature is required',
     }),

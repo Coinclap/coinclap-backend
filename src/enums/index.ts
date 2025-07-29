@@ -41,6 +41,7 @@ export enum HttpStatusCode {
   INTERNAL_SERVER_ERROR = 500,
   SERVICE_UNAVAILABLE = 503,
   TOO_MANY_REQUESTS = 429,
+  NOT_IMPLEMENTED = 501,
 }
 
 export enum LogLevel {

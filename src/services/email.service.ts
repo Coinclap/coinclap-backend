@@ -19,7 +19,7 @@ export class EmailService {
     this.logger = Logger.getInstance();
     this.config = AppConfig.getInstance();
     this.sendRealEmails = this.config.sendRealEmail;
-    this.useAmazonSES = this.config.useAmazonSES;
+    this.useAmazonSES = this.config.useAmazonSes;
 
     if (this.useAmazonSES) {
       // Configure AWS SES

@@ -29,6 +29,7 @@ export interface ITransactionDocument extends Document {
   expiryDate?: Date;
   createdAt: Date;
   updatedAt: Date;
+  paymentGateway?: string;
 }
 
 const transactionSchema = new Schema<ITransactionDocument>(
@@ -130,6 +131,11 @@ const transactionSchema = new Schema<ITransactionDocument>(
     },
     expiryDate: {
       type: Date,
+    },
+    paymentGateway: {
+      type: String,
+      enum: ['cashfree', 'razorpay', 'stripe'],
+      trim: true,
     },
   },
   {

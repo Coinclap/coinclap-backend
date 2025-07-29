@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice - INV123456</title>
+    <style>
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      line-height: 1.3;
+      color: #333;
+      background: white;
+      padding: 15px;
+    }
+
+    .invoice-container {
+      max-width: 100%;
+      margin: 0 auto;
+      background: white;
+    }
+
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #FF580D;
+    }
+
+    .company-info h1 {
+      color: #FF580D;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .company-info p {
+      color: #666;
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    .invoice-title h2 {
+      font-size: 24px;
+      color: #212121;
+      margin-bottom: 5px;
+    }
+
+    .invoice-title p {
+      font-size: 10px;
+      margin-bottom: 2px;
+    }
+
+    .invoice-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+
+    .meta-section {
+      flex: 1;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: bold;
+      color: #212121;
+      margin-bottom: 8px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .info-group {
+      margin-bottom: 8px;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+      font-size: 9px;
+    }
+
+    .info-value {
+      color: #333;
+      font-size: 9px;
+      margin-top: 1px;
+      line-height: 1.2;
+    }
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+      font-size: 10px;
+    }
+
+    .items-table th {
+      background-color: #212121;
+      color: white;
+      padding: 8px 6px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 10px;
+    }
+
+    .items-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #eee;
+      font-size: 9px;
+    }
+
+    .items-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .amount {
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .summary-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+
+    .payment-info {
+      flex: 1;
+      background-color: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .payment-info h3 {
+      color: #212121;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+
+    .payment-details {
+      display: flex;
+      gap: 15px;
+    }
+
+    .payment-col {
+      flex: 1;
+    }
+
+    .summary-table {
+      flex: 1;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+
+    .summary-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .summary-table .label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .summary-table .amount {
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .total-row {
+      background-color: #212121;
+      color: white;
+    }
+
+    .total-row td {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px 10px;
+    }
+
+    .discount {
+      color: #28a745;
+    }
+
+    .footer {
+      text-align: center;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      color: #666;
+      margin-top: 20px;
+    }
+
+    .footer-brand {
+      font-size: 12px;
+      font-weight: bold;
+      color: #FF580D;
+      margin-bottom: 5px;
+    }
+
+    .footer-text {
+      font-size: 9px;
+      margin-bottom: 3px;
+    }
+
+    @media print {
+      body {
+        margin: 0;
+        padding: 10px;
+        font-size: 10px;
+      }
+      .invoice-container {
+        padding: 0;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 0.5in;
+    }
+    </style>
+</head>
+<body>
+  <div class="invoice-container">
+    <!-- Header -->
+    <div class="invoice-header">
+      <div class="company-info">
+        <h1>zaaplin refurbished</h1>
+        <p>Quality refurbished tech products</p>
+        <p>Email: support@zaaplin.com</p>
+      </div>
+      <div class="invoice-title">
+        <h2>INVOICE</h2>
+        <p><strong>Invoice #:</strong> <%= invoiceNo %></p>
+        <p><strong>Date:</strong> <%= invoiceDate %></p>
+      </div>
+    </div>
+
+    <!-- Invoice Meta Information -->
+    <div class="invoice-meta">
+      <div class="meta-section">
+        <div class="section-title">SELLER DETAILS</div>
+        <div class="info-group">
+          <div class="info-label">Company Name</div>
+          <div class="info-value">TechResell Pvt. Ltd.</div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">GST Number</div>
+          <div class="info-value">29ABCDE1234F1Z5</div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Address</div>
+          <div class="info-value">123 Tech Park, Bangalore, Karnataka - 560001</div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Contact</div>
+          <div class="info-value">+91-9876543210 | seller@techresell.in</div>
+        </div>
+      </div>
+
+      <div class="meta-section">
+        <div class="section-title">BUYER DETAILS</div>
+        <div class="info-group">
+          <div class="info-label">Customer Name</div>
+        <div class="info-value"><%= buyerName %></div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Delivery Address</div>
+        <div class="info-value"><%= buyerAddress %></div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Phone Number</div>
+        <div class="info-value"><%= buyerPhone %></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Description</th>
+          <th style="width: 10%;">Qty</th>
+          <th style="width: 20%;">Unit Price</th>
+          <th style="width: 20%;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+        <tr>
+          <td>
+            <strong><%= item.description %></strong><br>
+            <small>Product ID: <%= item.productId %></small>
+          </td>
+          <td><%= item.qty %></td>
+          <td class="amount">₹<%= item.unitPrice %></td>
+          <td class="amount">₹<%= item.total %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <!-- Summary Section -->
+    <div class="summary-section">
+      <!-- Payment Information -->
+      <div class="payment-info">
+        <h3>Payment Information</h3>
+        <div class="payment-details">
+          <div class="payment-col">
+            <div class="info-group">
+              <div class="info-label">Payment Method</div>
+              <div class="info-value"><%= paymentMethod %></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Transaction ID</div>
+              <div class="info-value"><%= transactionId %></div>
+            </div>
+          </div>
+          <div class="payment-col">
+            <div class="info-group">
+              <div class="info-label">Payment Status</div>
+              <div class="info-value" style="color: #28a745; font-weight: bold;"><%= paymentStatus %></div>
+            </div>
+            <div class="info-group">
+              <div class="info-label">Payment Date</div>
+              <div class="info-value"><%= paymentDate %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Table -->
+      <table class="summary-table">
+        <tr>
+          <td class="label">Subtotal:</td>
+          <td class="amount">₹<%= subtotal %></td>
+        </tr>
+        <tr>
+          <td class="label discount">Discount:</td>
+          <td class="amount discount">-₹<%= discount %></td>
+        </tr>
+        <tr>
+          <td class="label">Delivery Charges:</td>
+          <td class="amount"><%= deliveryCharges %></td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL AMOUNT:</td>
+          <td>₹<%= total %></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">Ordered through zaaplin refurbished</div>
+      <div class="footer-text">Thank you for choosing our refurbished products!</div>
+      <div class="footer-text">For support, contact us at support@zaaplin.com</div>
+    </div>
+  </div>
+</body>
+</html>
