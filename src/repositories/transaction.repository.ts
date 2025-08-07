@@ -4,7 +4,6 @@ import {
   TransactionModel,
   TransactionStatus,
 } from '../models/transaction.model';
-import mongoose from 'mongoose';
 
 export class TransactionRepository extends BaseRepository<ITransactionDocument> {
   constructor() {
@@ -30,37 +29,6 @@ export class TransactionRepository extends BaseRepository<ITransactionDocument> 
 
   public async findByOrderId(orderId: string): Promise<ITransactionDocument | null> {
     return await this.model.findOne({ orderId }).exec();
-  }
-
-  // Add this new method to handle custom order ID searches
-  public async findByCustomOrderId(customOrderId: string): Promise<ITransactionDocument | null> {
-    try {
-      // Try to extract transaction ID from custom order ID format
-      let transactionId = customOrderId;
-      
-      if (customOrderId.startsWith('ORDER_')) {
-        transactionId = customOrderId.replace('ORDER_', '');
-      }
-      
-      // Try to find by transaction ID if it's a valid ObjectId
-      if (mongoose.Types.ObjectId.isValid(transactionId)) {
-        const transactionById = await this.model.findById(transactionId).exec();
-        if (transactionById) {
-          return transactionById;
-        }
-      }
-      
-      // Fallback: search by orderId field containing the custom order ID
-      return await this.model.findOne({ 
-        $or: [
-          { orderId: customOrderId },
-          { orderId: transactionId }
-        ]
-      }).exec();
-    } catch (error) {
-      console.error('Error finding transaction by custom order ID:', error);
-      return null;
-    }
   }
 
   public async updateTransactionStatus(

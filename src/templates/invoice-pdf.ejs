@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #<%= invoiceNo %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 30px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        .company-info {
+            flex: 1;
+        }
+        .invoice-info {
+            text-align: right;
+        }
+        .invoice-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .customer-info {
+            margin-bottom: 30px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .invoice-table th, .invoice-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-table th {
+            background-color: #f9f9f9;
+        }
+        .invoice-total {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .total-row {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .redeem-code {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px dashed #007bff;
+            text-align: center;
+        }
+        .redeem-code-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            letter-spacing: 2px;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>Your App Name</h1>
+                <p>123 App Street</p>
+                <p>Tech City, TC 12345</p>
+                <p>support@yourapp.com</p>
+            </div>
+            <div class="invoice-info">
+                <div class="invoice-title">INVOICE</div>
+                <p><strong>Invoice #:</strong> <%= invoiceNo %></p>
+                <p><strong>Date:</strong> <%= invoiceDate %></p>
+            </div>
+        </div>
+        
+        <div class="customer-info">
+            <h3>Billed To:</h3>
+            <p><strong><%= fullName %></strong></p>
+            <p><%= email %></p>
+            <p><%= address %></p>
+        </div>
+        
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= plan %> Subscription</td>
+                    <td>₹<%= planPrice.toFixed(2) %></td>
+                </tr>
+                <% if (couponDiscount > 0) { %>
+                <tr>
+                    <td>Coupon Discount</td>
+                    <td>-₹<%= couponDiscount.toFixed(2) %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        
+        <div class="invoice-total">
+            <table>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td>₹<%= planPrice.toFixed(2) %></td>
+                </tr>
+                <% if (couponDiscount > 0) { %>
+                <tr>
+                    <td>Discount:</td>
+                    <td>-₹<%= couponDiscount.toFixed(2) %></td>
+                </tr>
+                <% } %>
+                <tr class="total-row">
+                    <td>Total:</td>
+                    <td>₹<%= total.toFixed(2) %></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="redeem-code">
+            <p>To activate your subscription, please use the following redeem code:</p>
+            <p class="redeem-code-value"><%= redeemCode %></p>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for your business!</p>
+            <p>© <%= new Date().getFullYear() %> Your App Name. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
