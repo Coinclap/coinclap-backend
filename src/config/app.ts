@@ -31,6 +31,10 @@ export class AppConfig {
   public readonly razorpayKeyId: string;
   public readonly razorpayKeySecret: string;
   public readonly razorpayWebhookSecret: string;
+  public readonly cashfreeKeyId: string;
+  public readonly cashfreeKeySecret: string;
+  public readonly cashfreeWebhookSecret: string;
+  public readonly paymentGateway: string; // 'razorpay' or 'cashfree'
 
   private constructor() {
     this.port = Number.parseInt(process.env.PORT || '3000', 10);
@@ -59,6 +63,10 @@ export class AppConfig {
     this.razorpayKeyId = process.env.RAZORPAY_KEY_ID || '';
     this.razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || '';
     this.razorpayWebhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || '';
+    this.cashfreeKeyId = process.env.CASHFREE_CLIENT_ID || '';
+    this.cashfreeKeySecret = process.env.CASHFREE_CLIENT_SECRET || '';
+    this.cashfreeWebhookSecret = process.env.CASHFREE_WEBHOOK_SECRET || '';
+    this.paymentGateway = process.env.PAYMENT_GATEWAY || 'razorpay'; // 'razorpay' or 'cashfree'
   }
 
   public static getInstance(): AppConfig {

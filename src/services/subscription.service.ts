@@ -13,6 +13,8 @@ import { TransactionStatus } from '../models/transaction.model';
 import type { ITransactionDocument } from '../models/transaction.model';
 import type { ISubscriptionDocument } from '../models/subscription.model';
 import mongoose from 'mongoose';
+import { AppConfig } from '../config/app';
+import { CashFreeService } from './cashfree.service';
 
 export interface ISubscriptionPayload {
   fullName: string;
@@ -35,7 +37,10 @@ export class SubscriptionService extends BaseService {
   private subscriptionRepository: SubscriptionRepository;
   private userRepository: UserRepository;
   private razorpayService: RazorpayService;
+  private cashfree: CashFreeService;
   private emailService: EmailService;
+  private config: AppConfig;
+  private paymentGateway: string;
 
   constructor() {
     super();
@@ -45,12 +50,15 @@ export class SubscriptionService extends BaseService {
     this.subscriptionRepository = new SubscriptionRepository();
     this.userRepository = new UserRepository();
     this.razorpayService = RazorpayService.getInstance();
+    this.cashfree = CashFreeService.getInstance();
     this.emailService = EmailService.getInstance();
+    this.config = AppConfig.getInstance();
+    this.paymentGateway = this.config.paymentGateway || 'razorpay';
   }
 
   public async initiateSubscription(
     payload: ISubscriptionPayload
-  ): Promise<IServiceResponse<{ orderId: string; amount: number; key: string }>> {
+  ): Promise<IServiceResponse<{ orderId: string; amount: number; key: string; paymentSessionId?: string }>> {
     try {
       // Check if user already has a successful transaction
       const existingTransaction = await this.transactionRepository.findSuccessfulTransactionByEmail(
@@ -102,22 +110,45 @@ export class SubscriptionService extends BaseService {
         status: TransactionStatus.PENDING,
       });
 
-      // Create Razorpay order
-      const order = await this.razorpayService.createOrder(finalPrice, transaction._id.toString(), {
-        email: payload.email,
-        plan: payload.plan,
-      });
+      // Create payment gateway order
+      let order: any;
+      let responseKey: string;
+
+      if (this.paymentGateway === 'razorpay') {
+        order = await this.razorpayService.createOrder(finalPrice, transaction._id.toString(), {
+          email: payload.email,
+          plan: payload.plan,
+        });
+        responseKey = this.razorpayService['keyId']; // Access private property
+      } else if (this.paymentGateway === 'cashfree') {
+        order = await this.cashfree.createOrder(finalPrice, 'INR', transaction._id.toString(), {
+          customer_id: payload.email,
+          customer_phone: payload.mobile,
+          customer_email: payload.email,
+          customer_name: payload.fullName,
+        });
+        responseKey = this.config.cashfreeKeyId; // Use Cashfree key
+      } else {
+        return this.createErrorResponse('Invalid payment gateway configured', HttpStatusCode.INTERNAL_SERVER_ERROR);
+      }
 
       // Update transaction with order ID
       await this.transactionRepository.updateById(transaction._id.toString(), {
         orderId: order.id,
       });
 
-      return this.createSuccessResponse({
+      const response: any = {
         orderId: order.id,
         amount: finalPrice,
-        key: this.razorpayService['keyId'], // Access private property
-      });
+        key: responseKey,
+      };
+
+      // Add payment session ID for Cashfree
+      if (this.paymentGateway === 'cashfree' && order.payment_session_id) {
+        response.paymentSessionId = order.payment_session_id;
+      }
+
+      return this.createSuccessResponse(response);
     } catch (error) {
       return this.handleServiceError(error, 'initiateSubscription');
     }
@@ -126,19 +157,41 @@ export class SubscriptionService extends BaseService {
   public async verifyPayment(
     orderId: string,
     paymentId: string,
-    signature: string
+    signature?: string
   ): Promise<IServiceResponse<ITransactionDocument>> {
     try {
-      // Verify payment signature
-      const isValid = this.razorpayService.verifyPaymentSignature(orderId, paymentId, signature);
-      if (!isValid) {
-        return this.createErrorResponse('Invalid payment signature', HttpStatusCode.BAD_REQUEST);
-      }
+      console.log(`Verifying payment for gateway: ${this.paymentGateway}`);
+      console.log(`Order ID: ${orderId}, Payment ID: ${paymentId}, Signature: ${signature}`);
 
       // Find transaction by order ID
       const transaction = await this.transactionRepository.findByOrderId(orderId);
       if (!transaction) {
         return this.createErrorResponse('Transaction not found', HttpStatusCode.NOT_FOUND);
+      }
+
+      let isValid = false;
+
+      if (this.paymentGateway === 'razorpay') {
+        if (!signature) {
+          return this.createErrorResponse('Payment signature is required for Razorpay', HttpStatusCode.BAD_REQUEST);
+        }
+        // Verify Razorpay payment signature
+        isValid = this.razorpayService.verifyPaymentSignature(orderId, paymentId, signature);
+      } else if (this.paymentGateway === 'cashfree') {
+        try {
+          // Verify Cashfree payment by fetching order details
+          const paymentDetails = await this.cashfree.verifyPayment(orderId, paymentId);
+          // Check if payment is successful
+          isValid = paymentDetails && paymentDetails.length > 0 && 
+                   paymentDetails.some((payment: any) => payment.payment_status === 'SUCCESS');
+        } catch (error) {
+          this.logger.error('Cashfree payment verification failed:', error);
+          isValid = false;
+        }
+      }
+
+      if (!isValid) {
+        return this.createErrorResponse('Payment verification failed', HttpStatusCode.BAD_REQUEST);
       }
 
       // Generate unique redeem code and invoice number
@@ -172,6 +225,41 @@ export class SubscriptionService extends BaseService {
       return this.createSuccessResponse(updatedTransaction);
     } catch (error) {
       return this.handleServiceError(error, 'verifyPayment');
+    }
+  }
+
+  // Cashfree webhook handler
+  public async handleCashfreeWebhook(
+    payload: any,
+    signature: string,
+    timestamp: string,
+    rawBody: string
+  ): Promise<IServiceResponse<any>> {
+    try {
+      // Verify webhook signature
+      const isValidSignature = this.cashfree.verifyWebhookSignature(rawBody, signature, timestamp);
+      if (!isValidSignature) {
+        return this.createErrorResponse('Invalid webhook signature', HttpStatusCode.UNAUTHORIZED);
+      }
+
+      // Process webhook
+      const webhookData = await this.cashfree.handleWebhook(payload);
+      
+      if (webhookData.paymentStatus === 'SUCCESS') {
+        // Auto-verify the payment
+        const verificationResult = await this.verifyPayment(
+          webhookData.orderId,
+          webhookData.transactionId
+        );
+        
+        if (verificationResult.success) {
+          this.logger.info(`Payment auto-verified via webhook for order: ${webhookData.orderId}`);
+        }
+      }
+
+      return this.createSuccessResponse({ received: true, processed: true });
+    } catch (error) {
+      return this.handleServiceError(error, 'handleCashfreeWebhook');
     }
   }
 

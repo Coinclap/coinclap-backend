@@ -17,7 +17,7 @@ const options = {
     },
     servers: [
       {
-        url: `${serverUrl}/api/v1`,
+        url: `${serverUrl}`,
         description: config.isDevelopment() ? 'Development server' : 'Production server',
       },
     ],
